@@ -1,0 +1,96 @@
+{
+  "rules": [
+    {
+      "name": "Enforce Modular Frontend Structure",
+      "description": "All frontend code must be organized into logical subfolders: components/ for React components (further split into auth/, admin/, common/, forms/, layout/), services/ for API calls and business logic, hooks/ for custom React hooks, types/ for TypeScript interfaces and types, utils/ for utility functions, and tests/ for all test files."
+    },
+    {
+      "name": "Model File Organization",
+      "description": "Each TypeScript interface/type must be in its own file, named after the interface in snake_case, and placed in the appropriate subfolder under models/: types/ for basic types, interfaces/ for complex interfaces, requests/ for API request interfaces, responses/ for API response interfaces, and enums/ for enum types."
+    },
+    {
+      "name": "Component File Organization",
+      "description": "Each React component must be in its own file, named after the component in PascalCase, with corresponding .css/.scss files. Components should be placed in appropriate subfolders under components/ based on their purpose."
+    },
+    {
+      "name": "TypeScript Type Safety",
+      "description": "All JavaScript files must be converted to TypeScript (.ts/.tsx). All functions, props, and state must have proper type annotations. Use interfaces for component props and API responses."
+    },
+    {
+      "name": "Service Layer Pattern",
+      "description": "All API calls must go through service classes in services/. Business logic should be separated from components. Use async/await for API calls with proper error handling."
+    },
+    {
+      "name": "Custom Hooks for Logic Reuse",
+      "description": "Extract reusable logic into custom hooks in hooks/ folder. Use hooks for state management, API calls, and side effects. Follow React hooks naming convention (use*)."
+    },
+    {
+      "name": "Centralized State Management",
+      "description": "Use React Context or state management libraries for global state. Keep component state local when possible. Avoid prop drilling by using context or state management."
+    },
+    {
+      "name": "Environment Configuration",
+      "description": "All API endpoints, configuration values, and environment-specific settings must be loaded from environment variables. Keep .env.example updated with all required variables."
+    },
+    {
+      "name": "Component Testing",
+      "description": "All components must have corresponding test files (.test.tsx/.spec.tsx). Use React Testing Library for component testing. Mock external dependencies and API calls."
+    },
+    {
+      "name": "CSS/Styling Organization",
+      "description": "Use CSS modules, styled-components, or similar for component-scoped styling. Avoid global CSS except for reset/normalize styles. Keep styles close to their components."
+    },
+    {
+      "name": "Error Handling and Loading States",
+      "description": "All components must handle loading states and errors gracefully. Use error boundaries for catching component errors. Provide meaningful error messages to users."
+    },
+    {
+      "name": "Accessibility Standards",
+      "description": "All components must be accessible. Use semantic HTML elements, proper ARIA attributes, keyboard navigation support, and screen reader compatibility."
+    },
+    {
+      "name": "Performance Optimization",
+      "description": "Use React.memo, useMemo, and useCallback for performance optimization. Implement code splitting with React.lazy. Optimize bundle size and loading times."
+    },
+    {
+      "name": "Import Consistency",
+      "description": "Use absolute imports with path aliases configured in tsconfig.json. Group imports: React/third-party libraries, then internal modules, then relative imports."
+    },
+    {
+      "name": "Code Documentation",
+      "description": "All components, hooks, and services must have JSDoc comments explaining their purpose, props, and usage. Include examples for complex components."
+    },
+    {
+      "name": "Form Handling",
+      "description": "Use form libraries (React Hook Form, Formik) for form management. Implement proper validation with error messages. Handle form submission states."
+    },
+    {
+      "name": "API Integration",
+      "description": "All API calls must use the centralized apiService. Implement proper error handling, retry logic, and request/response interceptors. Use TypeScript interfaces for API responses."
+    },
+    {
+      "name": "Security Best Practices",
+      "description": "Sanitize user inputs, validate data on both client and server side. Implement proper authentication flow with token management. Use HTTPS for all API calls."
+    },
+    {
+      "name": "Responsive Design",
+      "description": "All components must be responsive and work on mobile, tablet, and desktop. Use CSS Grid and Flexbox for layouts. Test on different screen sizes."
+    },
+    {
+      "name": "Code Quality Standards",
+      "description": "Follow ESLint and Prettier configurations. Use meaningful variable and function names. Keep functions small and focused. Avoid code duplication."
+    },
+    {
+      "name": "SOLID Principles for Frontend",
+      "description": "Apply SOLID principles to React components and services. Single responsibility for components, open/closed for extensibility, dependency inversion for services."
+    },
+    {
+      "name": "Type Annotation Explanations",
+      "description": "When adding or editing typed functions or variables, provide brief explanations for TypeScript typing annotations in code reviews or inline comments."
+    },
+    {
+      "name": "Suggest Design Patterns",
+      "description": "When implementing features, suggest appropriate design patterns (e.g., Compound Components, Render Props, HOCs) and highlight opportunities for refactoring using common patterns."
+    }
+  ]
+} 
