@@ -12,7 +12,11 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import random
 import time
+import logging
 from sqlalchemy.orm import Session
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 # Import the auth router
 from routes.auth import router as auth_router

@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     
     # External APIs
     waze_api_key: Optional[str] = None
+    google_maps_api_key: Optional[str] = None
     
     # Server
     host: str = "0.0.0.0"

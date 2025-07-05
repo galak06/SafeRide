@@ -11,176 +11,234 @@ from dotenv import load_dotenv
 # Add the current directory to Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from database import engine, SessionLocal
-from db_models import Base, User, Role, Permission, UserRoleEnum
-from repositories import UserRepository, RoleRepository, PermissionRepository
-from auth import get_password_hash
-from models.requests import UserCreateRequest
-import uuid
+from sqlalchemy.orm import Session
+from db.database import SessionLocal, init_database
+from db.repositories import UserRepository, RoleRepository, PermissionRepository
+from auth.auth import get_password_hash
+import logging
 
-# Load environment variables
-load_dotenv()
+# Configure logging
+logger = logging.getLogger(__name__)
 
-def create_tables():
-    """Create all database tables"""
-    print("Creating database tables...")
-    Base.metadata.create_all(bind=engine)
-    print("✅ Database tables created successfully!")
-
-def create_initial_permissions():
-    """Create initial permissions"""
-    print("Creating initial permissions...")
+def create_roles_and_permissions():
+    """Create default roles and permissions"""
     db = SessionLocal()
-    
     try:
-        # Define all permissions
-        permissions_data = [
-            ("view_users", "View Users", "Can view user information", "users", "read"),
-            ("create_users", "Create Users", "Can create new users", "users", "create"),
-            ("edit_users", "Edit Users", "Can edit user information", "users", "update"),
-            ("delete_users", "Delete Users", "Can delete users", "users", "delete"),
-            ("block_users", "Block Users", "Can block/unblock users", "users", "block"),
-            ("view_rides", "View Rides", "Can view ride information", "rides", "read"),
-            ("create_rides", "Create Rides", "Can create new rides", "rides", "create"),
-            ("edit_rides", "Edit Rides", "Can edit ride information", "rides", "update"),
-            ("cancel_rides", "Cancel Rides", "Can cancel rides", "rides", "cancel"),
-            ("assign_drivers", "Assign Drivers", "Can assign drivers to rides", "rides", "assign"),
-            ("view_drivers", "View Drivers", "Can view driver information", "drivers", "read"),
-            ("approve_drivers", "Approve Drivers", "Can approve driver applications", "drivers", "approve"),
-            ("suspend_drivers", "Suspend Drivers", "Can suspend drivers", "drivers", "suspend"),
-            ("rate_drivers", "Rate Drivers", "Can rate drivers", "drivers", "rate"),
-            ("view_analytics", "View Analytics", "Can view analytics and reports", "analytics", "read"),
-            ("export_reports", "Export Reports", "Can export reports", "reports", "export"),
-            ("view_revenue", "View Revenue", "Can view revenue information", "revenue", "read"),
-            ("manage_settings", "Manage Settings", "Can manage system settings", "settings", "manage"),
-            ("view_logs", "View Logs", "Can view system logs", "logs", "read"),
-            ("manage_roles", "Manage Roles", "Can manage user roles", "roles", "manage"),
-            ("view_live_rides", "View Live Rides", "Can view live ride tracking", "live_rides", "read"),
-            ("track_drivers", "Track Drivers", "Can track driver locations", "driver_tracking", "read"),
-            ("manage_companies", "Manage Companies", "Can manage driver companies", "companies", "manage"),
-            ("view_company_drivers", "View Company Drivers", "Can view drivers in a company", "company_drivers", "read"),
-            ("manage_service_areas", "Manage Service Areas", "Can manage service areas", "service_areas", "manage"),
-            ("manage_user_locations", "Manage User Locations", "Can manage user locations", "user_locations", "manage"),
-            ("plan_routes", "Plan Routes", "Can plan and optimize routes", "routes", "plan"),
-            ("view_route_optimization", "View Route Optimization", "Can view route optimization", "route_optimization", "read"),
+        # Create permissions
+        permissions = [
+            # User management permissions
+            ("user_read", "Read user information", "user", "read"),
+            ("user_create", "Create new users", "user", "create"),
+            ("user_update", "Update user information", "user", "update"),
+            ("user_delete", "Delete users", "user", "delete"),
+            
+            # Ride management permissions
+            ("ride_read", "Read ride information", "ride", "read"),
+            ("ride_create", "Create new rides", "ride", "create"),
+            ("ride_update", "Update ride information", "ride", "update"),
+            ("ride_delete", "Delete rides", "ride", "delete"),
+            
+            # Company management permissions
+            ("company_read", "Read company information", "company", "read"),
+            ("company_create", "Create new companies", "company", "create"),
+            ("company_update", "Update company information", "company", "update"),
+            ("company_delete", "Delete companies", "company", "delete"),
+            
+            # Admin permissions
+            ("admin_all", "Full administrative access", "admin", "all"),
+            ("session_manage", "Manage user sessions", "session", "manage"),
         ]
         
-        for perm_id, name, description, resource, action in permissions_data:
-            # Check if permission already exists
-            existing = PermissionRepository.get_by_id(db, perm_id)
-            if not existing:
-                PermissionRepository.create(db, perm_id, name, description, resource, action)
-                print(f"  ✅ Created permission: {name}")
-            else:
-                print(f"  ⏭️  Permission already exists: {name}")
+        created_permissions = {}
+        for perm_id, name, resource, action in permissions:
+            permission = PermissionRepository.create(
+                db, perm_id, name, f"{action} {resource}", resource, action
+            )
+            created_permissions[perm_id] = permission
+            logger.info(f"Created permission: {name}")
         
-        print("✅ Initial permissions created successfully!")
-        
-    except Exception as e:
-        print(f"❌ Error creating permissions: {e}")
-        db.rollback()
-        raise
-    finally:
-        db.close()
-
-def create_initial_roles():
-    """Create initial roles"""
-    print("Creating initial roles...")
-    db = SessionLocal()
-    
-    try:
-        # Create roles
+        # Create roles with permissions
         roles_data = [
-            ("admin", "Administrator", "Full system access"),
-            ("manager", "Manager", "Management access"),
-            ("driver", "Driver", "Driver access"),
-            ("passenger", "Passenger", "Passenger access"),
+            {
+                "name": "admin",
+                "description": "Administrator with full access",
+                "permissions": ["admin_all", "session_manage"]
+            },
+            {
+                "name": "manager",
+                "description": "Manager with company management access",
+                "permissions": ["user_read", "user_update", "ride_read", "ride_update", "company_read", "company_update"]
+            },
+            {
+                "name": "driver",
+                "description": "Driver with ride management access",
+                "permissions": ["ride_read", "ride_update", "user_read"]
+            },
+            {
+                "name": "passenger",
+                "description": "Passenger with basic access",
+                "permissions": ["ride_read", "ride_create", "user_read"]
+            }
         ]
         
-        for role_name, description, _ in roles_data:
-            existing = RoleRepository.get_by_name(db, role_name)
-            if not existing:
-                role = RoleRepository.create(db, role_name, description)
-                print(f"  ✅ Created role: {role_name}")
-            else:
-                role = existing
-                print(f"  ⏭️  Role already exists: {role_name}")
-        
-        print("✅ Initial roles created successfully!")
-        
-    except Exception as e:
-        print(f"❌ Error creating roles: {e}")
-        db.rollback()
-        raise
-    finally:
-        db.close()
-
-def create_admin_user():
-    """Create admin user"""
-    print("Creating admin user...")
-    db = SessionLocal()
-    
-    try:
-        # Check if admin user already exists
-        admin_user = UserRepository.get_by_email(db, "admin@saferide.com")
-        if admin_user:
-            print("  ⏭️  Admin user already exists")
-            return admin_user
-        
-        # Create admin user
-        admin_data = UserCreateRequest(
-            email="admin@saferide.com",
-            password="admin123",
-            first_name="Admin",
-            last_name="User",
-            phone="+1234567890"
-        )
-        
-        hashed_password = get_password_hash(admin_data.password)
-        admin_user = UserRepository.create(db, admin_data, hashed_password)
-        
-        # Assign admin role
-        admin_role = RoleRepository.get_by_name(db, "admin")
-        if admin_role:
-            admin_user.roles.append(admin_role)
+        created_roles = {}
+        for role_data in roles_data:
+            role = RoleRepository.create(db, role_data["name"], role_data["description"])
+            created_roles[role_data["name"]] = role
+            
+            # Assign permissions to role
+            for perm_id in role_data["permissions"]:
+                if perm_id in created_permissions:
+                    role.permissions.append(created_permissions[perm_id])
+            
             db.commit()
-            print("  ✅ Admin user created and role assigned")
-        else:
-            print("  ⚠️  Admin role not found, user created without role")
+            logger.info(f"Created role: {role_data['name']}")
         
-        return admin_user
+        return created_roles
         
     except Exception as e:
-        print(f"❌ Error creating admin user: {e}")
+        logger.error(f"Error creating roles and permissions: {str(e)}")
         db.rollback()
         raise
     finally:
         db.close()
 
-def main():
-    """Main initialization function"""
-    print("🚀 Initializing SafeRide Database...")
-    print("=" * 50)
-    
+def create_test_users():
+    """Create test users for development"""
+    db = SessionLocal()
     try:
-        # Create tables
-        create_tables()
+        # Get roles
+        admin_role = RoleRepository.get_by_name(db, "admin")
+        passenger_role = RoleRepository.get_by_name(db, "passenger")
+        driver_role = RoleRepository.get_by_name(db, "driver")
+        manager_role = RoleRepository.get_by_name(db, "manager")
         
-        # Create initial data
-        create_initial_permissions()
-        create_initial_roles()
-        create_admin_user()
+        if not all([admin_role, passenger_role, driver_role, manager_role]):
+            logger.error("Required roles not found. Please run create_roles_and_permissions first.")
+            return
         
-        print("=" * 50)
-        print("✅ Database initialization completed successfully!")
-        print("\n📋 Default credentials:")
-        print("   Email: admin@saferide.com")
-        print("   Password: admin123")
-        print("\n🔗 You can now start the application!")
+        # Test users data
+        test_users = [
+            {
+                "email": "admin@saferide.com",
+                "password": "password123",
+                "first_name": "Admin",
+                "last_name": "User",
+                "phone": "+1234567890",
+                "role": admin_role,
+                "is_active": True,
+                "is_verified": True
+            },
+            {
+                "email": "child1@example.com",
+                "password": "password123",
+                "first_name": "Child",
+                "last_name": "One",
+                "phone": "+1234567891",
+                "role": passenger_role,
+                "is_active": True,
+                "is_verified": True
+            },
+            {
+                "email": "child2@example.com",
+                "password": "password123",
+                "first_name": "Child",
+                "last_name": "Two",
+                "phone": "+1234567892",
+                "role": passenger_role,
+                "is_active": True,
+                "is_verified": True
+            },
+            {
+                "email": "escort@example.com",
+                "password": "password123",
+                "first_name": "Escort",
+                "last_name": "User",
+                "phone": "+1234567893",
+                "role": driver_role,
+                "is_active": True,
+                "is_verified": True
+            },
+            {
+                "email": "manager@example.com",
+                "password": "password123",
+                "first_name": "Manager",
+                "last_name": "User",
+                "phone": "+1234567894",
+                "role": manager_role,
+                "is_active": True,
+                "is_verified": True
+            }
+        ]
+        
+        created_users = []
+        for user_data in test_users:
+            # Check if user already exists
+            existing_user = UserRepository.get_by_email(db, user_data["email"])
+            if existing_user:
+                logger.info(f"User {user_data['email']} already exists, skipping...")
+                continue
+            
+            # Hash password
+            hashed_password = get_password_hash(user_data["password"])
+            
+            # Create user
+            from models.requests import UserCreateRequest
+            user_create_request = UserCreateRequest(
+                email=user_data["email"],
+                password=user_data["password"],  # Will be hashed in repository
+                first_name=user_data["first_name"],
+                last_name=user_data["last_name"],
+                phone=user_data["phone"],
+                role_id=user_data["role"].id
+            )
+            
+            user = UserRepository.create(db, user_create_request, hashed_password)
+            
+            # Assign role
+            user.roles = [user_data["role"]]
+            
+            # Set additional fields
+            user.is_active = user_data["is_active"]
+            user.is_verified = user_data["is_verified"]
+            
+            db.commit()
+            created_users.append(user)
+            logger.info(f"Created test user: {user_data['email']}")
+        
+        return created_users
         
     except Exception as e:
-        print(f"❌ Database initialization failed: {e}")
-        sys.exit(1)
+        logger.error(f"Error creating test users: {str(e)}")
+        db.rollback()
+        raise
+    finally:
+        db.close()
+
+def init_database_with_data():
+    """Initialize database with all required data"""
+    try:
+        logger.info("Initializing database...")
+        
+        # Initialize database tables
+        init_database()
+        logger.info("Database tables created successfully")
+        
+        # Create roles and permissions
+        logger.info("Creating roles and permissions...")
+        create_roles_and_permissions()
+        logger.info("Roles and permissions created successfully")
+        
+        # Create test users
+        logger.info("Creating test users...")
+        create_test_users()
+        logger.info("Test users created successfully")
+        
+        logger.info("Database initialization completed successfully!")
+        
+    except Exception as e:
+        logger.error(f"Database initialization failed: {str(e)}")
+        raise
 
 if __name__ == "__main__":
-    main() 
+    init_database_with_data() 
