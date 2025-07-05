@@ -8,9 +8,12 @@ from jose import JWTError, jwt
 
 from models.requests import LoginRequest
 from models.responses import LoginResponse, UserResponse, TokenRefreshResponse
+from models.base.role_model import RoleModel
+from models.entities.driver_company import DriverCompany
 from services.auth_service import AuthService
 from db import get_db
-from auth.auth import get_current_active_user, get_current_active_user_from_cookie, session_manager
+from db.repositories import UserRepository
+from auth.auth import get_current_active_user, get_current_active_user_from_cookie, get_current_active_user_hybrid, session_manager
 from core.exceptions import AuthenticationError, NotFoundError, DatabaseError
 from core.config import settings
 
@@ -136,55 +139,87 @@ async def refresh_token(
 @router.get("/me", response_model=UserResponse)
 async def get_current_user_info(
     request: Request,
-    access_token: str = Cookie(None),
+    current_user = Depends(get_current_active_user_hybrid),
     db: Session = Depends(get_db)
 ):
     """
-    Get current user info from JWT in cookie.
+    Get current user info using hybrid authentication (cookies or Authorization header).
     """
     try:
-        if not access_token:
+        # Get the full user data from database to include role and company
+        db_user = UserRepository.get_by_id(db, current_user.id)
+        if not db_user:
             raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, 
-                detail="Not authenticated"
-            )
-        
-        auth_service = AuthService(db)
-        
-        # Decode and validate JWT token
-        payload = jwt.decode(access_token, settings.secret_key, algorithms=[settings.algorithm])
-        user_id = payload.get("sub")
-        
-        if not user_id:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, 
-                detail="Invalid token: missing user ID"
-            )
-        
-        # Check token type
-        if payload.get("type") != "access":
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, 
-                detail="Invalid token type"
-            )
-        
-        # Get user info from service
-        try:
-            user_info = auth_service.get_current_user_info(user_id)
-        except NotFoundError:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
+                status_code=status.HTTP_404_NOT_FOUND,
                 detail="User not found"
             )
-        logger.debug(f"User info retrieved for user {user_id}")
-        return user_info
         
-    except JWTError:
-        logger.warning("Invalid JWT token in /me endpoint")
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, 
-            detail="Invalid token"
+        # Get user's role - create a default role if none exists
+        role = None
+        if hasattr(db_user, 'roles') and db_user.roles:
+            db_role = db_user.roles[0]  # Get first role
+            role = RoleModel(
+                id=db_role.id,
+                name=db_role.name,
+                description=db_role.description or "",
+                permissions=[],  # Will be populated if needed
+                is_active=True,
+                created_at=db_role.created_at,
+                updated_at=db_role.updated_at or db_role.created_at
+            )
+        else:
+            # Create a default role if user has no role assigned
+            role = RoleModel(
+                id="default-role",
+                name="user",
+                description="Default user role",
+                permissions=[],
+                is_active=True,
+                created_at=datetime.utcnow(),
+                updated_at=datetime.utcnow()
+            )
+        
+        # Get user's company (if any) - optional field
+        company = None
+        if hasattr(db_user, 'company') and db_user.company:
+            try:
+                company = DriverCompany(
+                    id=db_user.company.id,
+                    name=db_user.company.name,
+                    description=db_user.company.description or "",
+                    address=db_user.company.address or "",
+                    phone=db_user.company.phone or "",
+                    email=db_user.company.email or "",
+                    service_areas=[],  # Will be populated if needed
+                    drivers=[],        # Will be populated if needed
+                    is_active=db_user.company.is_active,
+                    created_at=db_user.company.created_at,
+                    updated_at=db_user.company.updated_at or db_user.company.created_at
+                )
+            except Exception as e:
+                logger.warning(f"Failed to create company object for user {current_user.id}: {str(e)}")
+                company = None
+        
+        # Create UserResponse
+        user_response = UserResponse(
+            id=current_user.id,
+            email=current_user.email,
+            first_name=current_user.first_name,
+            last_name=current_user.last_name,
+            phone=current_user.phone,
+            role=role,
+            company=company,
+            is_active=current_user.is_active,
+            is_verified=current_user.is_verified,
+            profile_picture=current_user.profile_picture,
+            created_at=current_user.created_at,
+            updated_at=current_user.updated_at,
+            last_login=current_user.last_login
         )
+        
+        logger.debug(f"User info retrieved for user {current_user.id}")
+        return user_response
+        
     except HTTPException:
         # Re-raise HTTP exceptions as-is
         raise

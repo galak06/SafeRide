@@ -26,6 +26,55 @@ interface UseAuthReturn extends AuthState, AuthActions {
   isAuthenticated: boolean;
 }
 
+// Token storage utilities - follows Single Responsibility Principle
+const TokenStorage = {
+  // Save token to localStorage
+  saveToken: (token: string): void => {
+    try {
+      localStorage.setItem('authToken', token);
+      localStorage.setItem('authTimestamp', Date.now().toString());
+    } catch (error) {
+      console.error('Failed to save token to localStorage:', error);
+    }
+  },
+
+  // Get token from localStorage
+  getToken: (): string | null => {
+    try {
+      return localStorage.getItem('authToken');
+    } catch (error) {
+      console.error('Failed to get token from localStorage:', error);
+      return null;
+    }
+  },
+
+  // Clear token from localStorage
+  clearToken: (): void => {
+    try {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('authTimestamp');
+    } catch (error) {
+      console.error('Failed to clear token from localStorage:', error);
+    }
+  },
+
+  // Check if token is expired (24 hours)
+  isTokenExpired: (): boolean => {
+    try {
+      const timestamp = localStorage.getItem('authTimestamp');
+      if (!timestamp) return true;
+      
+      const tokenAge = Date.now() - parseInt(timestamp);
+      const maxAge = 24 * 60 * 60 * 1000; // 24 hours
+      
+      return tokenAge > maxAge;
+    } catch (error) {
+      console.error('Failed to check token expiration:', error);
+      return true;
+    }
+  }
+};
+
 export const useAuth = (): UseAuthReturn => {
   const [authState, setAuthState] = useState<AuthState>({
     user: null,
@@ -45,6 +94,9 @@ export const useAuth = (): UseAuthReturn => {
       if (response.success && response.user) {
         // Extract token from response if available
         const token = response.token || response.user.token || 'mock-token-123';
+        
+        // Save token to localStorage for persistence
+        TokenStorage.saveToken(token);
         
         // Set token in API service
         apiService.setToken(token);
@@ -79,9 +131,16 @@ export const useAuth = (): UseAuthReturn => {
 
   // Logout function
   const logout = useCallback(async (): Promise<void> => {
-    await userService.logout();
-    apiService.clearToken();
-    setAuthState({ user: null, token: null, isLoading: false, error: null });
+    try {
+      await userService.logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      // Clear token from localStorage and API service
+      TokenStorage.clearToken();
+      apiService.clearToken();
+      setAuthState({ user: null, token: null, isLoading: false, error: null });
+    }
   }, []);
 
   // Update user function
@@ -104,6 +163,9 @@ export const useAuth = (): UseAuthReturn => {
         error: null 
       });
     } else {
+      // If user fetch fails, clear authentication
+      TokenStorage.clearToken();
+      apiService.clearToken();
       setAuthState({ 
         user: null, 
         token: null,
@@ -127,20 +189,54 @@ export const useAuth = (): UseAuthReturn => {
   useEffect(() => {
     (async () => {
       setAuthState(prev => ({ ...prev, isLoading: true }));
-      // For tests, we'll use a mock token if no token is stored
-      const storedToken = localStorage.getItem('authToken') || 'mock-token-123';
-      const user = await userService.getCurrentUser(storedToken);
-      if (user) {
-        // Remove password from user object
-        const userWithoutPassword = user as any;
-        delete userWithoutPassword.password;
-        setAuthState({ 
-          user: userWithoutPassword, 
-          token: storedToken,
-          isLoading: false, 
-          error: null 
-        });
-      } else {
+      
+      try {
+        // Get stored token from localStorage
+        const storedToken = TokenStorage.getToken();
+        
+        // Check if token is expired
+        if (!storedToken || TokenStorage.isTokenExpired()) {
+          TokenStorage.clearToken();
+          apiService.clearToken();
+          setAuthState({ 
+            user: null, 
+            token: null,
+            isLoading: false, 
+            error: null 
+          });
+          return;
+        }
+
+        // Set token in API service
+        apiService.setToken(storedToken);
+        
+        // Try to get current user from backend
+        const user = await userService.getCurrentUser(storedToken);
+        if (user) {
+          // Remove password from user object
+          const userWithoutPassword = user as any;
+          delete userWithoutPassword.password;
+          setAuthState({ 
+            user: userWithoutPassword, 
+            token: storedToken,
+            isLoading: false, 
+            error: null 
+          });
+        } else {
+          // If user fetch fails, clear authentication
+          TokenStorage.clearToken();
+          apiService.clearToken();
+          setAuthState({ 
+            user: null, 
+            token: null,
+            isLoading: false, 
+            error: null 
+          });
+        }
+      } catch (error) {
+        console.error('Error during authentication check:', error);
+        TokenStorage.clearToken();
+        apiService.clearToken();
         setAuthState({ 
           user: null, 
           token: null,

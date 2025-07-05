@@ -30,11 +30,17 @@ class UserService {
         }
       }
 
-      const user = await response.json()
+      const loginData = await response.json()
+      
+      // Extract token and user from the response
+      const token = loginData.access_token
+      const user = loginData.user
+      
       return {
         success: true,
         message: 'Login successful',
-        user
+        user,
+        token
       }
     } catch (error) {
       console.error('Authentication error:', error)
@@ -52,12 +58,14 @@ class UserService {
         'Content-Type': 'application/json',
       }
       
+      // If token is provided, use Authorization header (for localStorage-based auth)
       if (token) {
         headers['Authorization'] = `Bearer ${token}`
       }
 
       const response = await fetch(`${this.baseUrl}/api/auth/me`, {
-        headers
+        headers,
+        credentials: 'include', // Include cookies for cookie-based auth
       })
 
       if (!response.ok) {
