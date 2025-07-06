@@ -17,7 +17,11 @@
     "yes": "Yes",
     "no": "No",
     "confirm": "Confirm",
-    "language": "Language"
+    "language": "Language",
+    "retry": "Retry",
+    "active": "Active",
+    "inactive": "Inactive",
+    "points": "points"
   },
   "auth": {
     "login": "Login",
@@ -35,7 +39,7 @@
     "portal": "Admin Portal",
     "dashboard": "Dashboard",
     "drivers": "Driver & Company",
-    "companies": "Companies",
+    "companies": "Company Management",
     "relationships": "Relationships",
     "children": "Children Management",
     "manageDrivers": "Manage drivers, companies, relationships, and children in the SafeRide system",
@@ -83,7 +87,8 @@
     "cancel": "Cancel",
     "operationAreaInstructions": {
       "circle": "Click and drag to draw a circle, or use the radius input above.",
-      "polygon": "Click on the map to draw a polygon. Double-click to finish."
+      "polygon": "Click on the map to draw a polygon. Double-click to finish.",
+      "tip": "Tip: Right-click a shape to delete it. Drag to edit."
     },
     "errors": {
       "loadFailed": "Failed to load companies",

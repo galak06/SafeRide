@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { childService } from '../services/childService'
 import type { Child, ChildCreate, User } from '../models'
 
-const ChildrenManager: React.FC = () => {
+export interface ChildrenManagerRef {
+  closeForm: () => void;
+}
+
+const ChildrenManager = forwardRef<ChildrenManagerRef>((props, ref) => {
   const { t } = useLanguage()
   const [children, setChildren] = useState<Child[]>([])
   const [parents, setParents] = useState<User[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [showCreateForm, setShowCreateForm] = useState(false)
-  const [newChild, setNewChild] = useState<ChildCreate>({
+  
+  const defaultChildData: ChildCreate = {
     first_name: '',
     last_name: '',
     email: '',
@@ -21,7 +25,60 @@ const ChildrenManager: React.FC = () => {
     school: '',
     emergency_contact: '',
     notes: ''
-  })
+  };
+
+  // Atomic state for form and visibility
+  interface ChildrenFormState {
+    showCreateForm: boolean;
+    newChild: ChildCreate;
+  }
+
+  const getInitialChildrenFormState = (): ChildrenFormState => {
+    const savedShowForm = localStorage.getItem('childrenShowCreateForm');
+    const savedChildData = localStorage.getItem('childrenFormData');
+    if (savedShowForm === 'true') {
+      if (savedChildData) {
+        try {
+          return {
+            showCreateForm: true,
+            newChild: JSON.parse(savedChildData)
+          };
+        } catch (e) {
+          console.warn('Failed to parse saved child form data:', e);
+        }
+      }
+      return { showCreateForm: true, newChild: { ...defaultChildData } };
+    }
+    return { showCreateForm: false, newChild: { ...defaultChildData } };
+  };
+
+  const [childrenFormState, setChildrenFormState] = useState<ChildrenFormState>(getInitialChildrenFormState);
+  const { showCreateForm, newChild } = childrenFormState;
+
+  // Add edit mode state
+  const [editChildId, setEditChildId] = useState<string | null>(null);
+
+  // Expose closeForm method to parent component
+  useImperativeHandle(ref, () => ({
+    closeForm: () => {
+      setChildrenFormState({ showCreateForm: false, newChild: { ...defaultChildData } });
+    }
+  }));
+
+  // Save to localStorage whenever state changes
+  useEffect(() => {
+    localStorage.setItem('childrenShowCreateForm', JSON.stringify(showCreateForm));
+    localStorage.setItem('childrenFormData', JSON.stringify(newChild));
+  }, [showCreateForm, newChild]);
+
+  // When clicking Add New Child, clear form and localStorage
+  const handleShowCreateForm = () => {
+    if (!showCreateForm) {
+      setChildrenFormState({ showCreateForm: true, newChild: { ...defaultChildData } });
+    } else {
+      setChildrenFormState({ showCreateForm: false, newChild: { ...defaultChildData } });
+    }
+  };
 
   useEffect(() => {
     loadChildren()
@@ -83,25 +140,27 @@ const ChildrenManager: React.FC = () => {
     try {
       const createdChild = await childService.createChild(newChild)
       setChildren(prev => [...prev, createdChild])
-      setNewChild({
-        first_name: '',
-        last_name: '',
-        email: '',
-        phone: '',
-        parent_id: '',
-        date_of_birth: '',
-        grade: '',
-        school: '',
-        emergency_contact: '',
-        notes: ''
-      })
-      setShowCreateForm(false)
+      
+      // Reset form and clear localStorage
+      setChildrenFormState({ showCreateForm: false, newChild: { ...defaultChildData } });
     } catch (err) {
       setError(t('children.createError'))
     } finally {
       setLoading(false)
     }
   }
+
+  // Update form data
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setChildrenFormState(prev => ({
+      ...prev,
+      newChild: {
+        ...prev.newChild,
+        [name]: value
+      }
+    }));
+  };
 
   const handleDeleteChild = async (childId: string) => {
     if (!confirm(t('children.deleteConfirm'))) {
@@ -119,6 +178,45 @@ const ChildrenManager: React.FC = () => {
       setLoading(false)
     }
   }
+
+  // When clicking Edit, populate form and switch to edit mode
+  const handleEditChild = (child: Child) => {
+    setChildrenFormState({ showCreateForm: true, newChild: { ...child } });
+    setEditChildId(child.id);
+    // Scroll to top to show the form
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Cancel edit
+  const handleCancelEdit = () => {
+    setChildrenFormState({ showCreateForm: false, newChild: { ...defaultChildData } });
+    setEditChildId(null);
+  };
+
+  // Update form submission logic
+  const handleCreateOrUpdateChild = async () => {
+    if (!newChild.first_name || !newChild.last_name || !newChild.parent_id) {
+      setError(t('children.createError'));
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      if (editChildId) {
+        await childService.updateChild(editChildId, newChild);
+      } else {
+        const createdChild = await childService.createChild(newChild);
+        setChildren(prev => [...prev, createdChild]);
+      }
+      setChildrenFormState({ showCreateForm: false, newChild: { ...defaultChildData } });
+      setEditChildId(null);
+      await loadChildren();
+    } catch (err) {
+      setError(t('children.createError'));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getParentName = (parentId: string) => {
     const parent = parents.find(p => p.id === parentId)
@@ -154,6 +252,13 @@ const ChildrenManager: React.FC = () => {
         >
           {t('common.delete')}
         </button>
+        <button 
+          className="btn-small btn-primary"
+          onClick={() => handleEditChild(child)}
+          disabled={loading}
+        >
+          Edit
+        </button>
       </div>
     </div>
   )
@@ -172,22 +277,23 @@ const ChildrenManager: React.FC = () => {
         <h2>{t('children.title')}</h2>
         <button 
           className="btn-primary"
-          onClick={() => setShowCreateForm(!showCreateForm)}
+          onClick={handleShowCreateForm}
         >
           {showCreateForm ? t('common.cancel') : t('children.addChild')}
         </button>
       </div>
 
       {showCreateForm && (
-        <div className="create-child-form">
-          <h3>{t('children.createChild')}</h3>
+        <form onSubmit={e => { e.preventDefault(); handleCreateOrUpdateChild(); }} className="create-child-form">
+          <h3>{editChildId ? `Edit ${newChild.first_name} ${newChild.last_name}` : t('children.addTitle')}</h3>
           <div className="form-row">
             <div className="form-group">
               <label>{t('children.firstName')} *:</label>
               <input
                 type="text"
+                name="first_name"
                 value={newChild.first_name}
-                onChange={(e) => setNewChild(prev => ({ ...prev, first_name: e.target.value }))}
+                onChange={handleInputChange}
                 placeholder={t('children.enterFirstName')}
                 required
               />
@@ -196,8 +302,9 @@ const ChildrenManager: React.FC = () => {
               <label>{t('children.lastName')} *:</label>
               <input
                 type="text"
+                name="last_name"
                 value={newChild.last_name}
-                onChange={(e) => setNewChild(prev => ({ ...prev, last_name: e.target.value }))}
+                onChange={handleInputChange}
                 placeholder={t('children.enterLastName')}
                 required
               />
@@ -208,8 +315,9 @@ const ChildrenManager: React.FC = () => {
               <label>{t('auth.email')}:</label>
               <input
                 type="email"
+                name="email"
                 value={newChild.email}
-                onChange={(e) => setNewChild(prev => ({ ...prev, email: e.target.value }))}
+                onChange={handleInputChange}
                 placeholder={t('auth.email')}
               />
             </div>
@@ -217,8 +325,9 @@ const ChildrenManager: React.FC = () => {
               <label>{t('children.phone')}:</label>
               <input
                 type="tel"
+                name="phone"
                 value={newChild.phone}
-                onChange={(e) => setNewChild(prev => ({ ...prev, phone: e.target.value }))}
+                onChange={handleInputChange}
                 placeholder={t('children.enterPhone')}
               />
             </div>
@@ -228,16 +337,18 @@ const ChildrenManager: React.FC = () => {
               <label>{t('children.dateOfBirth')}:</label>
               <input
                 type="date"
+                name="date_of_birth"
                 value={newChild.date_of_birth}
-                onChange={(e) => setNewChild(prev => ({ ...prev, date_of_birth: e.target.value }))}
+                onChange={handleInputChange}
               />
             </div>
             <div className="form-group">
               <label>{t('children.grade')}:</label>
               <input
                 type="text"
+                name="grade"
                 value={newChild.grade}
-                onChange={(e) => setNewChild(prev => ({ ...prev, grade: e.target.value }))}
+                onChange={handleInputChange}
                 placeholder={t('children.enterGrade')}
               />
             </div>
@@ -246,8 +357,9 @@ const ChildrenManager: React.FC = () => {
             <label>{t('children.school')}:</label>
             <input
               type="text"
+              name="school"
               value={newChild.school}
-              onChange={(e) => setNewChild(prev => ({ ...prev, school: e.target.value }))}
+              onChange={handleInputChange}
               placeholder={t('children.enterSchool')}
             />
           </div>
@@ -255,16 +367,18 @@ const ChildrenManager: React.FC = () => {
             <label>{t('children.emergencyContact')}:</label>
             <input
               type="text"
+              name="emergency_contact"
               value={newChild.emergency_contact}
-              onChange={(e) => setNewChild(prev => ({ ...prev, emergency_contact: e.target.value }))}
+              onChange={handleInputChange}
               placeholder={t('children.enterEmergencyContact')}
             />
           </div>
           <div className="form-group">
             <label>{t('relationships.notes')}:</label>
             <textarea
+              name="notes"
               value={newChild.notes}
-              onChange={(e) => setNewChild(prev => ({ ...prev, notes: e.target.value }))}
+              onChange={handleInputChange}
               placeholder={t('children.enterNotes')}
               rows={3}
             />
@@ -272,8 +386,9 @@ const ChildrenManager: React.FC = () => {
           <div className="form-group">
             <label>{t('children.parentId')} *:</label>
             <select
+              name="parent_id"
               value={newChild.parent_id}
-              onChange={(e) => setNewChild(prev => ({ ...prev, parent_id: e.target.value }))}
+              onChange={handleInputChange}
               required
             >
               <option value="">{t('children.selectParent')}</option>
@@ -287,20 +402,28 @@ const ChildrenManager: React.FC = () => {
           <div className="form-actions">
             <button 
               className="btn-primary"
-              onClick={handleCreateChild}
+              type="submit"
               disabled={loading}
             >
-              {t('children.createChild')}
+              {editChildId ? 'Save' : t('children.add')}
             </button>
+            {editChildId && <button 
+              className="btn-secondary"
+              type="button"
+              onClick={handleCancelEdit}
+              disabled={loading}
+            >
+              {t('children.cancelEdit')}
+            </button>}
             <button 
               className="btn-secondary"
-              onClick={() => setShowCreateForm(false)}
+              onClick={handleShowCreateForm}
               disabled={loading}
             >
               {t('common.cancel')}
             </button>
           </div>
-        </div>
+        </form>
       )}
 
       <div className="children-section">
@@ -317,6 +440,6 @@ const ChildrenManager: React.FC = () => {
       </div>
     </div>
   )
-}
+})
 
 export default ChildrenManager 
