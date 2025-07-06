@@ -73,9 +73,11 @@ const MapSelector: React.FC<MapSelectorProps> = ({
         return;
       }
       const script = document.createElement('script');
-      // Get API key - use a simple approach that works in both environments
+      // Get API key - use environment variable or fallback
       const apiKey = process.env.NODE_ENV === 'test' ? 'test-key' : 
-                    (window as any).__GOOGLE_MAPS_API_KEY__ || 'test-key';
+                    import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 
+                    (window as any).__GOOGLE_MAPS_API_KEY__ || 
+                    'test-key';
       script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=drawing`;
       script.async = true;
       script.defer = true;
@@ -83,6 +85,10 @@ const MapSelector: React.FC<MapSelectorProps> = ({
       script.onload = () => {
         setIsMapLoaded(true);
         initializeMap();
+      };
+      script.onerror = () => {
+        console.warn('Failed to load Google Maps API. Map functionality will be disabled.');
+        setIsMapLoaded(false);
       };
       document.head.appendChild(script);
     };
@@ -350,6 +356,9 @@ const MapSelector: React.FC<MapSelectorProps> = ({
         <div className="map-loading">
           <div className="spinner"></div>
           <p>{t('common.loading')}</p>
+          <p className="map-error">
+            <small>Note: Google Maps API key may be required for full functionality</small>
+          </p>
         </div>
       </div>
     );
