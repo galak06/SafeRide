@@ -62,6 +62,7 @@ const ChildrenManager = forwardRef<ChildrenManagerRef>((props, ref) => {
   useImperativeHandle(ref, () => ({
     closeForm: () => {
       setChildrenFormState({ showCreateForm: false, newChild: { ...defaultChildData } });
+      setEditChildId(null);
     }
   }));
 
@@ -407,20 +408,13 @@ const ChildrenManager = forwardRef<ChildrenManagerRef>((props, ref) => {
             >
               {editChildId ? 'Save' : t('children.add')}
             </button>
-            {editChildId && <button 
-              className="btn-secondary"
-              type="button"
-              onClick={handleCancelEdit}
-              disabled={loading}
-            >
-              {t('children.cancelEdit')}
-            </button>}
             <button 
               className="btn-secondary"
+              type="button"
               onClick={handleShowCreateForm}
               disabled={loading}
             >
-              {t('common.cancel')}
+              Cancel
             </button>
           </div>
         </form>

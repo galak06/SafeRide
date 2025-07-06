@@ -392,13 +392,12 @@ const CompanyManager = forwardRef<CompanyManagerRef>((props, ref) => {
               <button type="submit" className="btn btn-primary" disabled={loading}>
                 {loading ? t('companies.creating') : (editCompanyId ? 'Save' : t('companies.createCompany'))}
               </button>
-              {editCompanyId && <button type="button" onClick={handleCancelEdit} className="btn btn-secondary">{t('companies.cancelEdit')}</button>}
               <button 
                 type="button" 
                 className="btn btn-secondary"
                 onClick={() => setCompanyFormState(prev => ({ ...prev, showAddForm: false }))}
               >
-                {t('common.cancel')}
+                Cancel
               </button>
             </div>
           </form>
