@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
+import { useLanguage } from '../contexts/LanguageContext'
 import './Login.css'
-import { userService } from '../services/userService'
-import type { AuthResponse } from '../models/responses/auth_response'
-import type { LoginCredentials } from '../models/requests/login_credentials'
 
 // TypeScript interface for login form state - follows Single Responsibility Principle
 interface LoginFormState {
@@ -14,6 +12,8 @@ interface LoginFormState {
 
 // Accept onLogin as a prop
 const Login: React.FC<{ onLogin: (email: string, password: string) => Promise<void> }> = ({ onLogin }) => {
+  const { t } = useLanguage()
+  
   // Using TypeScript typing annotation for form state management
   const [formState, setFormState] = useState<LoginFormState>({
     email: '',
@@ -37,14 +37,14 @@ const Login: React.FC<{ onLogin: (email: string, password: string) => Promise<vo
     event.preventDefault()
     
     if (!formState.email || !formState.password) {
-      setFormState(prev => ({ ...prev, error: 'Please fill in all fields' }))
+      setFormState(prev => ({ ...prev, error: t('auth.loginError') }))
       return
     }
 
     // Custom email validation (stricter than HTML5)
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(formState.email) || /\.\./.test(formState.email)) {
-      setFormState(prev => ({ ...prev, error: 'Please enter a valid email address' }))
+      setFormState(prev => ({ ...prev, error: t('auth.loginError') }))
       return
     }
 
@@ -56,19 +56,11 @@ const Login: React.FC<{ onLogin: (email: string, password: string) => Promise<vo
     } catch (error) {
       setFormState(prev => ({ 
         ...prev, 
-        error: 'An unexpected error occurred. Please try again.' 
+        error: t('auth.loginError')
       }))
     } finally {
       setFormState(prev => ({ ...prev, isLoading: false }))
     }
-  }
-
-  // Use user service for authentication - follows Dependency Inversion principle
-  const authenticateUser = async (credentials: LoginCredentials): Promise<AuthResponse> => {
-    // Simulate network delay for better UX
-    await new Promise(resolve => setTimeout(resolve, 800))
-    
-    return await userService.authenticateUser(credentials)
   }
 
   return (
@@ -76,7 +68,7 @@ const Login: React.FC<{ onLogin: (email: string, password: string) => Promise<vo
       <div className="login-card">
         <div className="login-header">
           <h1>SafeRide</h1>
-          <p>Sign in to your account</p>
+          <p>{t('auth.login')}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form" aria-label="login form">
@@ -87,28 +79,28 @@ const Login: React.FC<{ onLogin: (email: string, password: string) => Promise<vo
           )}
 
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t('auth.email')}</label>
             <input
               type="email"
               id="email"
               name="email"
               value={formState.email}
               onChange={handleInputChange}
-              placeholder="Enter your email"
+              placeholder={t('auth.email')}
               disabled={formState.isLoading}
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">{t('auth.password')}</label>
             <input
               type="password"
               id="password"
               name="password"
               value={formState.password}
               onChange={handleInputChange}
-              placeholder="Enter your password"
+              placeholder={t('auth.password')}
               disabled={formState.isLoading}
               required
             />
@@ -119,7 +111,7 @@ const Login: React.FC<{ onLogin: (email: string, password: string) => Promise<vo
             className="login-button"
             disabled={formState.isLoading}
           >
-            {formState.isLoading ? 'Signing in...' : 'Sign In'}
+            {formState.isLoading ? t('common.loading') : t('auth.loginButton')}
           </button>
         </form>
 

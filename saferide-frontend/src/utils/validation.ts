@@ -29,6 +29,104 @@ const VALIDATION_PATTERNS = {
 } as const;
 
 // Validation rules following Strategy pattern
+// Note: These will be used with translation function from LanguageContext
+export const createValidationRules = (t: (key: string) => string) => ({
+  required: (fieldName: string): ValidationRule => ({
+    test: (value: string) => value.trim().length > 0,
+    message: t('validation.required').replace('{field}', fieldName)
+  }),
+
+  email: (): ValidationRule => ({
+    test: (value: string) => VALIDATION_PATTERNS.EMAIL.test(value),
+    message: t('validation.email')
+  }),
+
+  phone: (): ValidationRule => ({
+    test: (value: string) => VALIDATION_PATTERNS.PHONE.test(value),
+    message: t('validation.phone')
+  }),
+
+  password: (): ValidationRule => ({
+    test: (value: string) => VALIDATION_PATTERNS.PASSWORD.test(value),
+    message: t('validation.password')
+  }),
+
+  passwordConfirm: (password: string): ValidationRule => ({
+    test: (value: string) => value === password,
+    message: t('validation.passwordConfirm')
+  }),
+
+  minLength: (min: number): ValidationRule => ({
+    test: (value: string) => value.length >= min,
+    message: t('validation.minLength').replace('{min}', min.toString())
+  }),
+
+  maxLength: (max: number): ValidationRule => ({
+    test: (value: string) => value.length <= max,
+    message: t('validation.maxLength').replace('{max}', max.toString())
+  }),
+
+  name: (): ValidationRule => ({
+    test: (value: string) => VALIDATION_PATTERNS.NAME.test(value),
+    message: t('validation.name')
+  }),
+
+  zipCode: (): ValidationRule => ({
+    test: (value: string) => VALIDATION_PATTERNS.ZIP_CODE.test(value),
+    message: t('validation.zipCode')
+  }),
+
+  numeric: (): ValidationRule => ({
+    test: (value: string) => /^\d+$/.test(value),
+    message: t('validation.numeric')
+  }),
+
+  positiveNumber: (): ValidationRule => ({
+    test: (value: string) => {
+      const num = parseFloat(value);
+      return !isNaN(num) && num > 0;
+    },
+    message: t('validation.positiveNumber')
+  }),
+
+  url: (): ValidationRule => ({
+    test: (value: string) => {
+      try {
+        new URL(value);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    message: t('validation.url')
+  }),
+
+  date: (): ValidationRule => ({
+    test: (value: string) => {
+      const date = new Date(value);
+      return !isNaN(date.getTime());
+    },
+    message: t('validation.date')
+  }),
+
+  futureDate: (): ValidationRule => ({
+    test: (value: string) => {
+      const date = new Date(value);
+      return !isNaN(date.getTime()) && date > new Date();
+    },
+    message: t('validation.futureDate')
+  }),
+
+  pastDate: (): ValidationRule => ({
+    test: (value: string) => {
+      const date = new Date(value);
+      return !isNaN(date.getTime()) && date < new Date();
+    },
+    message: t('validation.pastDate')
+  })
+});
+
+// Legacy validation rules for backward compatibility (English only)
 export const validationRules = {
   required: (fieldName: string): ValidationRule => ({
     test: (value: string) => value.trim().length > 0,

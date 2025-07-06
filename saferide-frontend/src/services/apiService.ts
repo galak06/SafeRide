@@ -40,7 +40,7 @@ class ApiService {
   }
 
   // Generic API request method - follows Dependency Inversion Principle
-  private async request<T>(
+  async request<T>(
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {

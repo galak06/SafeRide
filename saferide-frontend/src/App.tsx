@@ -2,7 +2,9 @@ import React from 'react'
 import './App.css'
 import Login from './components/Login'
 import AdminPortal from './components/AdminPortal'
+import LanguageSelector from './components/LanguageSelector'
 import { useAuth } from './hooks/useAuth'
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext'
 
 // Debug component to monitor authentication state
 const AuthDebug: React.FC = () => {
@@ -57,22 +59,48 @@ const AuthDebug: React.FC = () => {
   );
 };
 
-const App: React.FC = () => {
-  const { isAuthenticated, login, logout, isLoading } = useAuth();
+// Language selector component for the header
+const HeaderLanguageSelector: React.FC = () => {
+  return (
+    <div style={{
+      position: 'fixed',
+      top: '10px',
+      left: '10px',
+      zIndex: 1000
+    }}>
+      <LanguageSelector className="compact" showLabel={false} />
+    </div>
+  );
+};
+
+// Main app content
+const AppContent: React.FC = () => {
+  const { isAuthenticated, login, isLoading } = useAuth();
+  const { t } = useLanguage();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>{t('common.loading')}</div>;
   }
 
   return (
     <>
       <AuthDebug />
+      <HeaderLanguageSelector />
       {!isAuthenticated ? (
         <Login onLogin={login} />
       ) : (
-        <AdminPortal onLogout={logout} />
+        <AdminPortal />
       )}
     </>
+  );
+}
+
+// Main App component with language provider
+const App: React.FC = () => {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 }
 
