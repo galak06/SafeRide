@@ -218,6 +218,83 @@ async def get_current_active_user_from_cookie(
         )
     return current_user
 
+async def get_current_user_hybrid(
+    request: Request,
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    access_token: str = Cookie(None),
+    db: Session = Depends(get_db)
+) -> UserModel:
+    """
+    Get current authenticated user from either Authorization header or cookie.
+    This allows for flexible authentication methods.
+    """
+    token = None
+    
+    # First try Authorization header
+    if credentials:
+        token = credentials.credentials
+    # Fall back to cookie
+    elif access_token:
+        token = access_token
+    
+    if not token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated"
+        )
+    
+    payload = verify_token(token)
+    if payload is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token"
+        )
+    
+    # Check token type
+    if payload.get("type") != "access":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token type"
+        )
+    
+    user_id = str(payload.get("sub"))
+    if not user_id or user_id == "None":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token: missing user ID"
+        )
+    
+    # Get user from database
+    try:
+        user = UserRepository.get_by_id(db, user_id)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User not found"
+            )
+        
+        # Convert to UserModel
+        user_model = _convert_db_user_to_model(user, db)
+        return user_model
+        
+    except Exception as e:
+        logger.error(f"Error getting user from database: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error"
+        )
+
+async def get_current_active_user_hybrid(
+    current_user: UserModel = Depends(get_current_user_hybrid)
+) -> UserModel:
+    """Get current active user using hybrid authentication"""
+    if not current_user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            detail="Inactive user"
+        )
+    return current_user
+
 # Authorization dependencies
 def require_permission(permission: str):
     """Decorator to require a specific permission"""

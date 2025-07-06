@@ -41,11 +41,26 @@ async def get_user_relationships(
     Get all relationships for a specific user
     """
     relationship_service = RelationshipService(db)
-    relationships = relationship_service.get_user_relationships(user_id)
+    all_relationships = relationship_service.get_user_relationships(user_id)
+    
+    # Categorize relationships
+    as_parent = []
+    as_child = []
+    as_escort = []
+    
+    for relationship in all_relationships:
+        if relationship.parent_id == user_id:
+            as_parent.append(relationship)
+        elif relationship.child_id == user_id:
+            as_child.append(relationship)
+        elif relationship.escort_id == user_id:
+            as_escort.append(relationship)
     
     return UserRelationshipsResponse(
         user_id=user_id,
-        relationships=relationships
+        as_parent=as_parent,
+        as_child=as_child,
+        as_escort=as_escort
     )
 
 @router.get("/{user_id}/relationships/parent", response_model=List[ParentChildRelationshipResponse])

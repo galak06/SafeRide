@@ -10,13 +10,12 @@ This package contains all database-related functionality including:
 
 from .database import get_db, engine, Base
 from .db_models import (
-    User, Role, Permission, DriverCompany, ServiceArea, UserLocation,
-    Ride, RoutePlan, RouteStop, AuditLog, UserRoleEnum, RideStatusEnum,
-    CompanyStatusEnum
+    User, Role, Permission, AuditLog, ParentChildRelationship, ChildModel,
+    UserRoleEnum, RideStatusEnum, CompanyStatusEnum, RelationshipTypeEnum,
+    user_roles, role_permissions
 )
 from .repositories import (
-    UserRepository, RoleRepository, PermissionRepository, CompanyRepository,
-    ServiceAreaRepository, UserLocationRepository, RideRepository, AuditLogRepository
+    UserRepository, RoleRepository, PermissionRepository, AuditLogRepository
 )
 
 __all__ = [
@@ -24,11 +23,10 @@ __all__ = [
     'get_db', 'engine', 'Base',
     
     # Models
-    'User', 'Role', 'Permission', 'DriverCompany', 'ServiceArea', 'UserLocation',
-    'Ride', 'RoutePlan', 'RouteStop', 'AuditLog', 'UserRoleEnum', 'RideStatusEnum',
-    'CompanyStatusEnum',
+    'User', 'Role', 'Permission', 'AuditLog', 'ParentChildRelationship', 'ChildModel',
+    'UserRoleEnum', 'RideStatusEnum', 'CompanyStatusEnum', 'RelationshipTypeEnum',
+    'user_roles', 'role_permissions',
     
     # Repositories
-    'UserRepository', 'RoleRepository', 'PermissionRepository', 'CompanyRepository',
-    'ServiceAreaRepository', 'UserLocationRepository', 'RideRepository', 'AuditLogRepository'
+    'UserRepository', 'RoleRepository', 'PermissionRepository', 'AuditLogRepository'
 ] 

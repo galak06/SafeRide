@@ -1,48 +1,41 @@
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from datetime import datetime
-from models.entities.parent_child_relationship import ParentChildRelationship
+from db.db_models import ParentChildRelationship
 from models.requests.parent_child_relationship_request import ParentChildRelationshipCreate, ParentChildRelationshipUpdate
 from models.responses.parent_child_relationship_response import ParentChildRelationshipResponse
 from core.exceptions import NotFoundError
+from sqlalchemy import or_
 
 class RelationshipService:
     def __init__(self, db: Session):
         self.db = db
 
     def get_user_relationships(self, user_id: str) -> List[ParentChildRelationshipResponse]:
-        """Get all relationships for a specific user"""
-        # Mock data for now - replace with actual database queries
-        relationships = [
-            ParentChildRelationshipResponse(
-                id="rel-1",
-                parent_id="admin-001",
-                child_id="child-001",
-                escort_id="escort-001",
-                relationship_type="parent_child",
-                is_active=True,
-                created_at=datetime.now(),
-                updated_at=datetime.now()
-            ),
-            ParentChildRelationshipResponse(
-                id="rel-2",
-                parent_id="admin-001",
-                child_id="child-002",
-                escort_id=None,
-                relationship_type="parent_child",
-                is_active=True,
-                created_at=datetime.now(),
-                updated_at=datetime.now()
+        """Get all relationships for a specific user from the database"""
+        # Query the database for relationships where the user is parent, child, or escort
+        relationships = self.db.query(ParentChildRelationship).filter(
+            or_(
+                ParentChildRelationship.parent_id == user_id,
+                ParentChildRelationship.child_id == user_id,
+                ParentChildRelationship.escort_id == user_id
             )
-        ]
-        
-        # Filter relationships where user is parent, child, or escort
-        user_relationships = [
-            rel for rel in relationships
-            if rel.parent_id == user_id or rel.child_id == user_id or rel.escort_id == user_id
-        ]
-        
-        return user_relationships
+        ).all()
+
+        # Convert ORM objects to response models
+        response = []
+        for rel in relationships:
+            response.append(ParentChildRelationshipResponse(
+                id=rel.id,
+                parent_id=rel.parent_id,
+                child_id=rel.child_id,
+                escort_id=rel.escort_id,
+                relationship_type=rel.relationship_type.value if rel.relationship_type else "parent",
+                is_active=rel.is_active,
+                created_at=rel.created_at,
+                updated_at=rel.updated_at
+            ))
+        return response
 
     def get_parent_relationships(self, user_id: str) -> List[ParentChildRelationshipResponse]:
         """Get all relationships where user is a parent"""

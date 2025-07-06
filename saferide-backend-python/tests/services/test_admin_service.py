@@ -2,7 +2,6 @@ import pytest
 from unittest.mock import patch, MagicMock
 from services.admin_service import AdminService
 from models.base import UserModel, RoleModel
-from models.entities import CompanyModel, ServiceAreaModel
 from datetime import datetime, timedelta
 
 class TestAdminService:
@@ -32,7 +31,13 @@ class TestAdminService:
             profile_picture=None,
             last_login=None,
             created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow()
+            updated_at=datetime.utcnow(),
+            parent_ids=[],
+            child_ids=[],
+            escort_ids=[],
+            is_child=False,
+            is_parent=False,
+            is_escort=False
         )
 
     @pytest.fixture
@@ -45,52 +50,18 @@ class TestAdminService:
             is_active=True
         )
 
-    @pytest.fixture
-    def mock_company(self):
-        return CompanyModel(
-            id="company-1",
-            name="Test Company",
-            description="A test company",
-            address="123 Test St",
-            phone="1234567890",
-            email="company@example.com",
-            service_areas=[],
-            drivers=[],
-            is_active=True,
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow()
-        )
-
-    @pytest.fixture
-    def mock_service_area(self):
-        return ServiceAreaModel(
-            id="area-1",
-            name="Test Area",
-            description="A test area",
-            coordinates=[{"lat": 0.0, "lng": 0.0}],
-            is_active=True,
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow()
-        )
-
     class TestGetDashboardData:
         @pytest.mark.asyncio
-        async def test_get_dashboard_data_success(self, admin_service, db, mock_user, mock_company, mock_service_area):
+        async def test_get_dashboard_data_success(self, admin_service, db, mock_user):
             with patch('db.repositories.UserRepository.count_all', return_value=10), \
                  patch('db.repositories.UserRepository.count_active', return_value=8), \
-                 patch('db.repositories.CompanyRepository.count_all', return_value=2), \
-                 patch('db.repositories.ServiceAreaRepository.count_all', return_value=1), \
-                 patch('db.repositories.UserRepository.get_recent', return_value=[mock_user]), \
-                 patch('db.repositories.CompanyRepository.get_recent', return_value=[mock_company]):
+                 patch('db.repositories.UserRepository.get_recent', return_value=[mock_user]):
                 dashboard_data = admin_service.get_dashboard_stats()
                 assert isinstance(dashboard_data, dict)
                 assert dashboard_data["total_users"] == 10
                 assert dashboard_data["active_users"] == 8
-                assert dashboard_data["total_companies"] == 2
-                assert dashboard_data["total_service_areas"] == 1
                 assert dashboard_data["recent_users"] == 1
-                assert dashboard_data["recent_companies"] == 1
-                assert dashboard_data["user_activity_rate"] == 80
+                assert "user_growth" in dashboard_data
 
         @pytest.mark.asyncio
         async def test_get_dashboard_data_error_handling(self, admin_service):
@@ -98,5 +69,5 @@ class TestAdminService:
                 with pytest.raises(Exception):
                     admin_service.get_dashboard_stats()
 
-    # Additional tests for user/company/service area management would follow the same pattern:
+    # Additional tests for user management would follow the same pattern:
     # Patch the relevant repository method, return mock data, and assert on the returned model/fields. 

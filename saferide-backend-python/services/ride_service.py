@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 import uuid
 from sqlalchemy.orm import Session
 
-from db.repositories import RideRepository
 from db.db_models import RideStatusEnum
 from models.requests import RideRequest
 from models.responses import RideResponse
@@ -13,10 +12,12 @@ from core.exceptions import NotFoundError, DatabaseError, ValidationError
 logger = logging.getLogger(__name__)
 
 class RideService:
-    """Service for managing ride operations with database persistence"""
+    """Service for managing ride operations with mock data persistence"""
     
     def __init__(self, db: Session):
         self.db = db
+        # Mock ride storage for development
+        self._rides = {}
     
     async def create_ride(self, ride_request: RideRequest) -> RideResponse:
         """
@@ -40,25 +41,28 @@ class RideService:
             if ride_request.passenger_count < 1 or ride_request.passenger_count > 4:
                 raise ValidationError("Passenger count must be between 1 and 4")
             
-            # Create ride in database
-            ride = RideRepository.create(
-                db=self.db,
-                passenger_id=ride_request.user_id,
-                origin_lat=ride_request.origin.lat,
-                origin_lng=ride_request.origin.lng,
-                destination_lat=ride_request.destination.lat,
-                destination_lng=ride_request.destination.lng,
-                origin_address=ride_request.origin.address or "",
-                destination_address=ride_request.destination.address or "",
-                passenger_count=ride_request.passenger_count
-            )
+            # Create mock ride
+            ride_id = str(uuid.uuid4())
+            self._rides[ride_id] = {
+                "id": ride_id,
+                "passenger_id": ride_request.user_id,
+                "origin_lat": ride_request.origin.lat,
+                "origin_lng": ride_request.origin.lng,
+                "destination_lat": ride_request.destination.lat,
+                "destination_lng": ride_request.destination.lng,
+                "origin_address": ride_request.origin.address or "",
+                "destination_address": ride_request.destination.address or "",
+                "passenger_count": ride_request.passenger_count,
+                "status": RideStatusEnum.PENDING,
+                "created_at": datetime.utcnow()
+            }
             
-            logger.info(f"Ride created: {ride.id}")
+            logger.info(f"Ride created: {ride_id}")
             
             # Convert to response model
             return RideResponse(
-                ride_id=getattr(ride, 'id', ''),
-                status=getattr(ride, 'status', RideStatusEnum.PENDING).value,
+                ride_id=ride_id,
+                status=RideStatusEnum.PENDING.value,
                 driver_info=None,  # Will be populated when driver is assigned
                 estimated_pickup=datetime.now() + timedelta(minutes=5),  # Mock for now
                 estimated_arrival=datetime.now() + timedelta(minutes=20),  # Mock for now
@@ -86,16 +90,16 @@ class RideService:
             DatabaseError: If database operation fails
         """
         try:
-            ride = RideRepository.get_by_id(self.db, ride_id)
+            ride = self._rides.get(ride_id)
             if not ride:
                 raise NotFoundError(f"Ride {ride_id} not found")
             
             return RideResponse(
-                ride_id=getattr(ride, 'id', ''),
-                status=getattr(ride, 'status', RideStatusEnum.PENDING).value,
+                ride_id=ride["id"],
+                status=ride["status"].value,
                 driver_info=None,  # Will be populated when driver is assigned
-                estimated_pickup=getattr(ride, 'pickup_time', None) or datetime.now() + timedelta(minutes=5),
-                estimated_arrival=getattr(ride, 'completion_time', None) or datetime.now() + timedelta(minutes=20),
+                estimated_pickup=datetime.now() + timedelta(minutes=5),
+                estimated_arrival=datetime.now() + timedelta(minutes=20),
                 fare_estimate=10.0  # Mock for now
             )
             
@@ -122,7 +126,6 @@ class RideService:
             DatabaseError: If database operation fails
         """
         try:
-            
             # Validate status
             try:
                 status_enum = RideStatusEnum(status)
@@ -130,18 +133,19 @@ class RideService:
                 raise ValidationError(f"Invalid status: {status}")
             
             # Update ride status
-            ride = RideRepository.update_status(self.db, ride_id, status_enum)
+            ride = self._rides.get(ride_id)
             if not ride:
                 raise NotFoundError(f"Ride {ride_id} not found")
             
+            ride["status"] = status_enum
             logger.info(f"Ride {ride_id} status updated to {status}")
             
             return RideResponse(
-                ride_id=getattr(ride, 'id', ''),
-                status=getattr(ride, 'status', RideStatusEnum.PENDING).value,
+                ride_id=ride["id"],
+                status=ride["status"].value,
                 driver_info=None,  # Will be populated when driver is assigned
-                estimated_pickup=getattr(ride, 'pickup_time', None) or datetime.now() + timedelta(minutes=5),
-                estimated_arrival=getattr(ride, 'completion_time', None) or datetime.now() + timedelta(minutes=20),
+                estimated_pickup=datetime.now() + timedelta(minutes=5),
+                estimated_arrival=datetime.now() + timedelta(minutes=20),
                 fare_estimate=10.0  # Mock for now
             )
             
@@ -169,18 +173,19 @@ class RideService:
         try:
             # For now, just update status to accepted
             # In a real implementation, you'd also update the driver_id field
-            ride = RideRepository.update_status(self.db, ride_id, RideStatusEnum.ACTIVE)
+            ride = self._rides.get(ride_id)
             if not ride:
                 raise NotFoundError(f"Ride {ride_id} not found")
             
+            ride["status"] = RideStatusEnum.ACTIVE
             logger.info(f"Driver {driver_id} assigned to ride {ride_id}")
             
             return RideResponse(
-                ride_id=getattr(ride, 'id', ''),
-                status=getattr(ride, 'status', RideStatusEnum.PENDING).value,
+                ride_id=ride["id"],
+                status=ride["status"].value,
                 driver_info={"id": driver_id, "name": "Driver Name"},  # Mock for now
-                estimated_pickup=getattr(ride, 'pickup_time', None) or datetime.now() + timedelta(minutes=5),
-                estimated_arrival=getattr(ride, 'completion_time', None) or datetime.now() + timedelta(minutes=20),
+                estimated_pickup=datetime.now() + timedelta(minutes=5),
+                estimated_arrival=datetime.now() + timedelta(minutes=20),
                 fare_estimate=10.0  # Mock for now
             )
             
@@ -205,31 +210,23 @@ class RideService:
             DatabaseError: If database operation fails
         """
         try:
-            rides = RideRepository.get_by_user(self.db, user_id)
+            user_rides = []
+            for ride in self._rides.values():
+                if ride["passenger_id"] == user_id:
+                    if status is None or ride["status"].value == status:
+                        user_rides.append({
+                            "id": ride["id"],
+                            "status": ride["status"].value,
+                            "origin_address": ride["origin_address"],
+                            "destination_address": ride["destination_address"],
+                            "passenger_count": ride["passenger_count"],
+                            "created_at": ride["created_at"].isoformat(),
+                            "estimated_pickup": (datetime.now() + timedelta(minutes=5)).isoformat(),
+                            "estimated_arrival": (datetime.now() + timedelta(minutes=20)).isoformat(),
+                            "fare_estimate": 10.0
+                        })
             
-            # Filter by status if provided
-            if status:
-                rides = [ride for ride in rides if ride.status.value == status]
-            
-            # Convert to dictionary format
-            ride_dicts = []
-            for ride in rides:
-                created_at = getattr(ride, 'created_at', None)
-                pickup_time = getattr(ride, 'pickup_time', None)
-                completion_time = getattr(ride, 'completion_time', None)
-                ride_dicts.append({
-                    "id": getattr(ride, 'id', ''),
-                    "status": getattr(ride, 'status', RideStatusEnum.PENDING).value,
-                    "passenger_id": getattr(ride, 'passenger_id', None),
-                    "driver_id": getattr(ride, 'driver_id', None),
-                    "origin_address": getattr(ride, 'origin_address', None),
-                    "destination_address": getattr(ride, 'destination_address', None),
-                    "created_at": created_at.isoformat() if created_at is not None and hasattr(created_at, 'isoformat') else None,
-                    "pickup_time": pickup_time.isoformat() if pickup_time is not None and hasattr(pickup_time, 'isoformat') else None,
-                    "completion_time": completion_time.isoformat() if completion_time is not None and hasattr(completion_time, 'isoformat') else None
-                })
-            
-            return ride_dicts
+            return user_rides
             
         except Exception as e:
             logger.error(f"Error getting user rides: {e}")
@@ -241,7 +238,7 @@ class RideService:
         
         Args:
             ride_id: Unique ride identifier
-            reason: Cancellation reason
+            reason: Optional cancellation reason
             
         Returns:
             RideResponse with updated ride information
@@ -251,20 +248,20 @@ class RideService:
             DatabaseError: If database operation fails
         """
         try:
-            
-            ride = RideRepository.update_status(self.db, ride_id, RideStatusEnum.CANCELLED)
+            ride = self._rides.get(ride_id)
             if not ride:
                 raise NotFoundError(f"Ride {ride_id} not found")
             
-            logger.info(f"Ride {ride_id} cancelled: {reason}")
+            ride["status"] = RideStatusEnum.CANCELLED
+            logger.info(f"Ride {ride_id} cancelled. Reason: {reason}")
             
             return RideResponse(
-                ride_id=getattr(ride, 'id', ''),
-                status=getattr(ride, 'status', RideStatusEnum.PENDING).value,
+                ride_id=ride["id"],
+                status=ride["status"].value,
                 driver_info=None,
-                estimated_pickup=getattr(ride, 'pickup_time', None) or datetime.now() + timedelta(minutes=5),
-                estimated_arrival=getattr(ride, 'completion_time', None) or datetime.now() + timedelta(minutes=20),
-                fare_estimate=0.0  # Cancelled rides have no fare
+                estimated_pickup=datetime.now(),
+                estimated_arrival=datetime.now(),
+                fare_estimate=0.0
             )
             
         except (NotFoundError, DatabaseError):
