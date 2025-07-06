@@ -12,6 +12,7 @@ from .models.permission import Permission
 from .models.audit_log import AuditLog
 from .models.parent_child_relationship import ParentChildRelationship
 from .models.child_model import ChildModel
+from .models.company import Company
 
 # Export all models
 __all__ = [
@@ -21,6 +22,7 @@ __all__ = [
     'AuditLog',
     'ParentChildRelationship',
     'ChildModel',
+    'Company',
     'UserRoleEnum',
     'RideStatusEnum',
     'CompanyStatusEnum',

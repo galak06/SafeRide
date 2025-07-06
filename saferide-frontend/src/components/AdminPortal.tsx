@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import ChildrenManager from './ChildrenManager'
 import RelationshipManager from './RelationshipManager'
+import CompanyManager from './CompanyManager'
 import './AdminPortal.css'
 
 interface AdminPortalProps {}
 
 const AdminPortal: React.FC<AdminPortalProps> = () => {
   const { t } = useLanguage()
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'drivers' | 'relationships' | 'children'>('dashboard')
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'drivers' | 'companies' | 'relationships' | 'children'>('dashboard')
 
   return (
     <div className="admin-portal">
@@ -29,6 +30,12 @@ const AdminPortal: React.FC<AdminPortalProps> = () => {
           onClick={() => setActiveTab('drivers')}
         >
           {t('admin.drivers')}
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'companies' ? 'active' : ''}`}
+          onClick={() => setActiveTab('companies')}
+        >
+          {t('admin.companies')}
         </button>
         <button
           className={`tab-button ${activeTab === 'relationships' ? 'active' : ''}`}
@@ -100,6 +107,10 @@ const AdminPortal: React.FC<AdminPortalProps> = () => {
               <li>{t('drivers.manageSettings')}</li>
             </ul>
           </div>
+        )}
+        
+        {activeTab === 'companies' && (
+          <CompanyManager />
         )}
         
         {activeTab === 'relationships' && (

@@ -26,6 +26,8 @@ from routes.users import router as users_router
 from routes.relationships import router as relationships_router
 # Import the children router
 from routes.children import router as children_router
+# Import the companies router
+from routes.companies import router as companies_router
 
 # Import custom exceptions and global handler
 from core.exceptions import global_exception_handler, SafeRideException, AuthenticationError, NotFoundError, DatabaseError
@@ -123,6 +125,8 @@ app.include_router(users_router)
 app.include_router(relationships_router)
 # Include the children router
 app.include_router(children_router)
+# Include the companies router
+app.include_router(companies_router)
 
 # Security
 security = HTTPBearer()

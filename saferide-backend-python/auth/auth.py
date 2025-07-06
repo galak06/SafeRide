@@ -138,6 +138,8 @@ async def get_current_user(
         user_model = _convert_db_user_to_model(user, db)
         return user_model
         
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error getting user from database: {str(e)}")
         raise HTTPException(
@@ -200,6 +202,8 @@ async def get_current_user_from_cookie(
         user_model = _convert_db_user_to_model(user, db)
         return user_model
         
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error getting user from database: {str(e)}")
         raise HTTPException(
@@ -277,6 +281,8 @@ async def get_current_user_hybrid(
         user_model = _convert_db_user_to_model(user, db)
         return user_model
         
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error getting user from database: {str(e)}")
         raise HTTPException(

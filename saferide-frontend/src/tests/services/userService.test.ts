@@ -119,14 +119,13 @@ describe('UserService', () => {
   describe('authenticateUser', () => {
     test('authenticates user with valid credentials', async () => {
       const mockResponse = {
-        success: true,
-        message: 'Login successful',
-        user: { ...mockUser, token: 'mock-token-123' }
+        access_token: 'mock-token-123',
+        user: { ...mockUser }
       };
       
       (fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: jest.fn().mockResolvedValue(mockResponse.user)
+        json: jest.fn().mockResolvedValue(mockResponse)
       });
       
       const credentials: LoginCredentials = {
@@ -139,6 +138,7 @@ describe('UserService', () => {
       expect(result.success).toBe(true);
       expect(result.message).toBe('Login successful');
       expect(result.user).toBeDefined();
+      expect(result.token).toBe('mock-token-123');
     });
 
     test('fails authentication with invalid credentials', async () => {
@@ -161,14 +161,13 @@ describe('UserService', () => {
 
     test('handles case-insensitive email matching', async () => {
       const mockResponse = {
-        success: true,
-        message: 'Login successful',
-        user: { ...mockUser, token: 'mock-token-123' }
+        access_token: 'mock-token-123',
+        user: { ...mockUser }
       };
       
       (fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: jest.fn().mockResolvedValue(mockResponse.user)
+        json: jest.fn().mockResolvedValue(mockResponse)
       });
       
       const credentials: LoginCredentials = {
@@ -180,6 +179,7 @@ describe('UserService', () => {
 
       expect(result.success).toBe(true);
       expect(result.message).toBe('Login successful');
+      expect(result.token).toBe('mock-token-123');
     });
 
     test('fails with empty email', async () => {

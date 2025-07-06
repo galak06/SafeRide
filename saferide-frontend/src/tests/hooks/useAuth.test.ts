@@ -74,7 +74,18 @@ describe('useAuth Hook', () => {
     test('initializes with stored auth data from localStorage', async () => {
       const userWithoutPassword = createUserWithoutPassword(mockUser);
       
-      localStorage.setItem('authToken', 'stored-token-123');
+      // Mock localStorage.getItem to return the token and timestamp
+      const localStorageSpy = jest.spyOn(Storage.prototype, 'getItem');
+      localStorageSpy.mockImplementation((key: string) => {
+        if (key === 'authToken') return 'stored-token-123';
+        if (key === 'authTimestamp') return Date.now().toString(); // Not expired
+        return null;
+      });
+      
+      // Mock localStorage.setItem to avoid errors
+      const setItemSpy = jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {});
+      
+      // Mock userService.getCurrentUser to return the user
       mockUserService.getCurrentUser.mockResolvedValue(mockUser);
 
       const { result } = renderHook(() => useAuth());
@@ -86,6 +97,9 @@ describe('useAuth Hook', () => {
         expect(result.current.isLoading).toBe(false);
         expect(result.current.error).toBeNull();
       });
+      
+      localStorageSpy.mockRestore();
+      setItemSpy.mockRestore();
     });
   });
 
@@ -112,7 +126,7 @@ describe('useAuth Hook', () => {
           password: 'password123'
         });
         expect(mockApiService.setToken).toHaveBeenCalledWith('new-token-123');
-        expect(result.current.user).toEqual({ ...mockUser });
+        expect(result.current.user).toEqual(createUserWithoutPassword(mockUser));
         expect(result.current.token).toBe('new-token-123');
         expect(result.current.isAuthenticated).toBe(true);
         expect(result.current.isLoading).toBe(false);
