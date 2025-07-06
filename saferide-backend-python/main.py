@@ -29,6 +29,10 @@ from routes.children import router as children_router
 # Import the companies router
 from routes.companies import router as companies_router
 
+# Import services
+from services.admin_service import AdminService
+from services.child_service import ChildService
+
 # Import custom exceptions and global handler
 from core.exceptions import global_exception_handler, SafeRideException, AuthenticationError, NotFoundError, DatabaseError
 
@@ -40,6 +44,7 @@ from core.middleware import (
 
 # Import database dependency
 from db import get_db
+from db.repositories import UserRepository, CompanyRepository
 
 # Import settings
 from core.config import settings
@@ -380,6 +385,50 @@ async def confirm_ride(ride_id: str, user_id: str = Depends(get_current_user), d
 async def get_ride_status(ride_id: str, user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
     """Get ride status"""
     return await ride_service.get_ride_status(ride_id)
+
+@app.get("/api/admin/dashboard/metrics")
+async def get_dashboard_metrics(db: Session = Depends(get_db)):
+    """Get dashboard metrics for admin portal"""
+    try:
+        # Get user statistics
+        total_users = UserRepository.count_all(db)
+        active_users = UserRepository.count_active(db)
+        
+        # Get driver statistics
+        drivers = UserRepository.get_drivers(db)
+        total_drivers = len(drivers)
+        active_drivers = len([d for d in drivers if getattr(d, 'is_active', False)])
+        
+        # Get company statistics
+        total_companies = CompanyRepository.count_all(db)
+        active_companies = CompanyRepository.count_active(db)
+        
+        # Get children statistics
+        child_service = ChildService(db)
+        all_children = child_service.get_all_children()
+        total_children = len(all_children)
+        
+        # Mock ride statistics (since we don't have a ride system yet)
+        active_rides = 0  # This would come from a ride service
+        
+        return {
+            "total_users": total_users,
+            "active_users": active_users,
+            "total_drivers": total_drivers,
+            "active_drivers": active_drivers,
+            "total_companies": total_companies,
+            "active_companies": active_companies,
+            "total_children": total_children,
+            "active_rides": active_rides,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Failed to get dashboard metrics: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to get dashboard metrics: {str(e)}"
+        )
 
 @app.get("/api/health")
 async def health_check():

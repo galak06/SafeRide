@@ -1,0 +1,1004 @@
+INFO:     Will watch for changes in these directories: ['/Users/gilcohen/Projects/google_app/saferide-backend-python']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [73110] using WatchFiles
+INFO:     Started server process [73176]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:64076 - "OPTIONS /api/auth/login HTTP/1.1" 200 OK
+2025-07-06 10:51:02,887 INFO sqlalchemy.engine.Engine select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+2025-07-06 10:51:02,887 INFO sqlalchemy.engine.Engine [raw sql] {}
+INFO:sqlalchemy.engine.Engine:[raw sql] {}
+2025-07-06 10:51:02,888 INFO sqlalchemy.engine.Engine select current_schema()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+2025-07-06 10:51:02,888 INFO sqlalchemy.engine.Engine [raw sql] {}
+INFO:sqlalchemy.engine.Engine:[raw sql] {}
+2025-07-06 10:51:02,889 INFO sqlalchemy.engine.Engine show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+2025-07-06 10:51:02,889 INFO sqlalchemy.engine.Engine [raw sql] {}
+INFO:sqlalchemy.engine.Engine:[raw sql] {}
+2025-07-06 10:51:02,890 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:51:02,890 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:51:02,890 INFO sqlalchemy.engine.Engine [generated in 0.00010s] {}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00010s] {}
+2025-07-06 10:51:02,916 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-07-06 10:51:02,916 INFO sqlalchemy.engine.Engine [generated in 0.00012s] {'email_1': 'admin@saferide.com', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00012s] {'email_1': 'admin@saferide.com', 'param_1': 1}
+WARNING:passlib.handlers.bcrypt:(trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "/Users/gilcohen/.pyenv/versions/3.11.9/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+2025-07-06 10:51:03,166 INFO sqlalchemy.engine.Engine SELECT roles.id AS roles_id, roles.name AS roles_name, roles.description AS roles_description, roles.created_at AS roles_created_at, roles.updated_at AS roles_updated_at 
+FROM roles, user_roles 
+WHERE %(param_1)s = user_roles.user_id AND roles.id = user_roles.role_id
+INFO:sqlalchemy.engine.Engine:SELECT roles.id AS roles_id, roles.name AS roles_name, roles.description AS roles_description, roles.created_at AS roles_created_at, roles.updated_at AS roles_updated_at 
+FROM roles, user_roles 
+WHERE %(param_1)s = user_roles.user_id AND roles.id = user_roles.role_id
+2025-07-06 10:51:03,166 INFO sqlalchemy.engine.Engine [generated in 0.00008s] {'param_1': 'admin-001'}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00008s] {'param_1': 'admin-001'}
+2025-07-06 10:51:03,171 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-07-06 10:51:03,171 INFO sqlalchemy.engine.Engine [generated in 0.00009s] {'id_1': 'admin-001', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00009s] {'id_1': 'admin-001', 'param_1': 1}
+2025-07-06 10:51:03,173 INFO sqlalchemy.engine.Engine UPDATE users SET updated_at=now(), last_login=%(last_login)s WHERE users.id = %(users_id)s
+INFO:sqlalchemy.engine.Engine:UPDATE users SET updated_at=now(), last_login=%(last_login)s WHERE users.id = %(users_id)s
+2025-07-06 10:51:03,173 INFO sqlalchemy.engine.Engine [generated in 0.00006s] {'last_login': datetime.datetime(2025, 7, 6, 7, 51, 3, 172016), 'users_id': 'admin-001'}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00006s] {'last_login': datetime.datetime(2025, 7, 6, 7, 51, 3, 172016), 'users_id': 'admin-001'}
+2025-07-06 10:51:03,174 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-07-06 10:51:03,175 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:51:03,175 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(pk_1)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(pk_1)s
+2025-07-06 10:51:03,175 INFO sqlalchemy.engine.Engine [generated in 0.00005s] {'pk_1': 'admin-001'}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00005s] {'pk_1': 'admin-001'}
+INFO:services.auth_service:Successful login for user admin@saferide.com from IP 127.0.0.1
+2025-07-06 10:51:03,177 INFO sqlalchemy.engine.Engine INSERT INTO audit_logs (id, user_id, action, resource, resource_id, details, ip_address, user_agent, timestamp) VALUES (%(id)s, %(user_id)s, %(action)s, %(resource)s, %(resource_id)s, %(details)s, %(ip_address)s, %(user_agent)s, %(timestamp)s)
+INFO:sqlalchemy.engine.Engine:INSERT INTO audit_logs (id, user_id, action, resource, resource_id, details, ip_address, user_agent, timestamp) VALUES (%(id)s, %(user_id)s, %(action)s, %(resource)s, %(resource_id)s, %(details)s, %(ip_address)s, %(user_agent)s, %(timestamp)s)
+2025-07-06 10:51:03,177 INFO sqlalchemy.engine.Engine [generated in 0.00005s] {'id': '9ffded6e-ad79-4ddb-80a1-171125c3cf07', 'user_id': 'admin-001', 'action': 'login', 'resource': 'auth', 'resource_id': None, 'details': 'Login from IP 127.0.0.1', 'ip_address': '127.0.0.1', 'user_agent': 'Unknown', 'timestamp': datetime.datetime(2025, 7, 6, 7, 51, 3, 176452)}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00005s] {'id': '9ffded6e-ad79-4ddb-80a1-171125c3cf07', 'user_id': 'admin-001', 'action': 'login', 'resource': 'auth', 'resource_id': None, 'details': 'Login from IP 127.0.0.1', 'ip_address': '127.0.0.1', 'user_agent': 'Unknown', 'timestamp': datetime.datetime(2025, 7, 6, 7, 51, 3, 176452)}
+2025-07-06 10:51:03,178 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-07-06 10:51:03,178 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:51:03,179 INFO sqlalchemy.engine.Engine SELECT audit_logs.id, audit_logs.user_id, audit_logs.action, audit_logs.resource, audit_logs.resource_id, audit_logs.details, audit_logs.ip_address, audit_logs.user_agent, audit_logs.timestamp 
+FROM audit_logs 
+WHERE audit_logs.id = %(pk_1)s
+INFO:sqlalchemy.engine.Engine:SELECT audit_logs.id, audit_logs.user_id, audit_logs.action, audit_logs.resource, audit_logs.resource_id, audit_logs.details, audit_logs.ip_address, audit_logs.user_agent, audit_logs.timestamp 
+FROM audit_logs 
+WHERE audit_logs.id = %(pk_1)s
+2025-07-06 10:51:03,179 INFO sqlalchemy.engine.Engine [generated in 0.00005s] {'pk_1': '9ffded6e-ad79-4ddb-80a1-171125c3cf07'}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00005s] {'pk_1': '9ffded6e-ad79-4ddb-80a1-171125c3cf07'}
+2025-07-06 10:51:03,180 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(pk_1)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(pk_1)s
+2025-07-06 10:51:03,180 INFO sqlalchemy.engine.Engine [cached since 0.004617s ago] {'pk_1': 'admin-001'}
+INFO:sqlalchemy.engine.Engine:[cached since 0.004617s ago] {'pk_1': 'admin-001'}
+INFO:routes.auth:Login successful for user admin@saferide.com
+2025-07-06 10:51:03,181 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64078 - "POST /api/auth/login HTTP/1.1" 200 OK
+2025-07-06 10:51:03,196 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:51:03,196 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:51:03,196 INFO sqlalchemy.engine.Engine [cached since 0.3062s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 0.3062s ago] {}
+2025-07-06 10:51:03,199 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users) AS anon_1
+2025-07-06 10:51:03,199 INFO sqlalchemy.engine.Engine [generated in 0.00007s] {}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00007s] {}
+2025-07-06 10:51:03,201 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.is_active = true) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.is_active = true) AS anon_1
+2025-07-06 10:51:03,201 INFO sqlalchemy.engine.Engine [generated in 0.00006s] {}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00006s] {}
+2025-07-06 10:51:03,202 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:51:03,202 INFO sqlalchemy.engine.Engine [generated in 0.00006s] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00006s] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+2025-07-06 10:51:03,205 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies) AS anon_1
+2025-07-06 10:51:03,205 INFO sqlalchemy.engine.Engine [generated in 0.00006s] {}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00006s] {}
+2025-07-06 10:51:03,207 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+WHERE companies.is_active = true) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+WHERE companies.is_active = true) AS anon_1
+2025-07-06 10:51:03,207 INFO sqlalchemy.engine.Engine [generated in 0.00006s] {}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00006s] {}
+2025-07-06 10:51:03,208 INFO sqlalchemy.engine.Engine SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+INFO:sqlalchemy.engine.Engine:SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+2025-07-06 10:51:03,208 INFO sqlalchemy.engine.Engine [generated in 0.00005s] {}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00005s] {}
+2025-07-06 10:51:03,212 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64078 - "GET /api/admin/dashboard/metrics HTTP/1.1" 200 OK
+2025-07-06 10:51:03,214 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:51:03,214 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:51:03,214 INFO sqlalchemy.engine.Engine [cached since 0.3241s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 0.3241s ago] {}
+2025-07-06 10:51:03,215 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users) AS anon_1
+2025-07-06 10:51:03,215 INFO sqlalchemy.engine.Engine [cached since 0.01559s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 0.01559s ago] {}
+2025-07-06 10:51:03,215 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.is_active = true) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.is_active = true) AS anon_1
+2025-07-06 10:51:03,215 INFO sqlalchemy.engine.Engine [cached since 0.01405s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 0.01405s ago] {}
+2025-07-06 10:51:03,216 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:51:03,216 INFO sqlalchemy.engine.Engine [cached since 0.01329s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 0.01329s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+2025-07-06 10:51:03,216 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies) AS anon_1
+2025-07-06 10:51:03,216 INFO sqlalchemy.engine.Engine [cached since 0.01183s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 0.01183s ago] {}
+2025-07-06 10:51:03,217 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+WHERE companies.is_active = true) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+WHERE companies.is_active = true) AS anon_1
+2025-07-06 10:51:03,217 INFO sqlalchemy.engine.Engine [cached since 0.01009s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 0.01009s ago] {}
+2025-07-06 10:51:03,217 INFO sqlalchemy.engine.Engine SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+INFO:sqlalchemy.engine.Engine:SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+2025-07-06 10:51:03,217 INFO sqlalchemy.engine.Engine [cached since 0.009662s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 0.009662s ago] {}
+2025-07-06 10:51:03,218 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64078 - "GET /api/admin/dashboard/metrics HTTP/1.1" 200 OK
+2025-07-06 10:51:10,539 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:51:10,539 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:51:10,540 INFO sqlalchemy.engine.Engine [cached since 7.649s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 7.649s ago] {}
+2025-07-06 10:51:10,542 INFO sqlalchemy.engine.Engine SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:51:10,542 INFO sqlalchemy.engine.Engine [generated in 0.00023s] {'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00023s] {'param_1': 100, 'param_2': 0}
+2025-07-06 10:51:10,545 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:51:10,545 INFO sqlalchemy.engine.Engine [generated in 0.00049s] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+INFO:sqlalchemy.engine.Engine:[generated in 0.00049s] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+2025-07-06 10:51:10,546 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:51:10,546 INFO sqlalchemy.engine.Engine [cached since 0.00203s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+INFO:sqlalchemy.engine.Engine:[cached since 0.00203s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+2025-07-06 10:51:10,548 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64083 - "GET /api/companies/ HTTP/1.1" 200 OK
+2025-07-06 10:51:10,552 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:51:10,552 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+INFO:     127.0.0.1:64083 - "GET /api/companies/drivers/available/ HTTP/1.1" 307 Temporary Redirect
+2025-07-06 10:51:10,553 INFO sqlalchemy.engine.Engine [cached since 7.663s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 7.663s ago] {}
+2025-07-06 10:51:10,554 INFO sqlalchemy.engine.Engine SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:51:10,554 INFO sqlalchemy.engine.Engine [cached since 0.01213s ago] {'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 0.01213s ago] {'param_1': 100, 'param_2': 0}
+2025-07-06 10:51:10,555 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:51:10,555 INFO sqlalchemy.engine.Engine [cached since 0.01054s ago] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+INFO:sqlalchemy.engine.Engine:[cached since 0.01054s ago] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+2025-07-06 10:51:10,556 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:51:10,556 INFO sqlalchemy.engine.Engine [cached since 0.01139s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+INFO:sqlalchemy.engine.Engine:[cached since 0.01139s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+2025-07-06 10:51:10,557 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64085 - "GET /api/companies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64085 - "GET /api/companies/drivers/available/ HTTP/1.1" 307 Temporary Redirect
+2025-07-06 10:51:10,562 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:51:10,562 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:51:10,562 INFO sqlalchemy.engine.Engine [cached since 7.672s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 7.672s ago] {}
+2025-07-06 10:51:10,564 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:51:10,564 INFO sqlalchemy.engine.Engine [cached since 7.361s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 7.361s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+2025-07-06 10:51:10,567 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64083 - "GET /api/companies/drivers/available HTTP/1.1" 200 OK
+2025-07-06 10:51:10,569 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:51:10,569 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:51:10,569 INFO sqlalchemy.engine.Engine [cached since 7.679s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 7.679s ago] {}
+2025-07-06 10:51:10,570 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:51:10,570 INFO sqlalchemy.engine.Engine [cached since 7.367s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 7.367s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+2025-07-06 10:51:10,571 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64085 - "GET /api/companies/drivers/available HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64085 - "GET /api/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64083 - "GET /api/children HTTP/1.1" 307 Temporary Redirect
+2025-07-06 10:51:12,824 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:51:12,825 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:51:12,825 INFO sqlalchemy.engine.Engine [cached since 9.935s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 9.935s ago] {}
+2025-07-06 10:51:12,827 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-07-06 10:51:12,827 INFO sqlalchemy.engine.Engine [cached since 9.656s ago] {'id_1': 'admin-001', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:[cached since 9.656s ago] {'id_1': 'admin-001', 'param_1': 1}
+2025-07-06 10:51:12,829 INFO sqlalchemy.engine.Engine SELECT roles.id AS roles_id, roles.name AS roles_name, roles.description AS roles_description, roles.created_at AS roles_created_at, roles.updated_at AS roles_updated_at 
+FROM roles, user_roles 
+WHERE %(param_1)s = user_roles.user_id AND roles.id = user_roles.role_id
+INFO:sqlalchemy.engine.Engine:SELECT roles.id AS roles_id, roles.name AS roles_name, roles.description AS roles_description, roles.created_at AS roles_created_at, roles.updated_at AS roles_updated_at 
+FROM roles, user_roles 
+WHERE %(param_1)s = user_roles.user_id AND roles.id = user_roles.role_id
+2025-07-06 10:51:12,829 INFO sqlalchemy.engine.Engine [cached since 9.663s ago] {'param_1': 'admin-001'}
+INFO:sqlalchemy.engine.Engine:[cached since 9.663s ago] {'param_1': 'admin-001'}
+2025-07-06 10:51:12,832 INFO sqlalchemy.engine.Engine SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+INFO:sqlalchemy.engine.Engine:SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+2025-07-06 10:51:12,832 INFO sqlalchemy.engine.Engine [cached since 9.624s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 9.624s ago] {}
+2025-07-06 10:51:12,835 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64083 - "GET /api/children/ HTTP/1.1" 200 OK
+2025-07-06 10:51:12,838 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:51:12,838 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:51:12,838 INFO sqlalchemy.engine.Engine [cached since 9.948s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 9.948s ago] {}
+2025-07-06 10:51:12,839 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-07-06 10:51:12,839 INFO sqlalchemy.engine.Engine [cached since 9.668s ago] {'id_1': 'admin-001', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:[cached since 9.668s ago] {'id_1': 'admin-001', 'param_1': 1}
+2025-07-06 10:51:12,841 INFO sqlalchemy.engine.Engine SELECT roles.id AS roles_id, roles.name AS roles_name, roles.description AS roles_description, roles.created_at AS roles_created_at, roles.updated_at AS roles_updated_at 
+FROM roles, user_roles 
+WHERE %(param_1)s = user_roles.user_id AND roles.id = user_roles.role_id
+INFO:sqlalchemy.engine.Engine:SELECT roles.id AS roles_id, roles.name AS roles_name, roles.description AS roles_description, roles.created_at AS roles_created_at, roles.updated_at AS roles_updated_at 
+FROM roles, user_roles 
+WHERE %(param_1)s = user_roles.user_id AND roles.id = user_roles.role_id
+2025-07-06 10:51:12,841 INFO sqlalchemy.engine.Engine [cached since 9.675s ago] {'param_1': 'admin-001'}
+INFO:sqlalchemy.engine.Engine:[cached since 9.675s ago] {'param_1': 'admin-001'}
+2025-07-06 10:51:12,842 INFO sqlalchemy.engine.Engine SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+INFO:sqlalchemy.engine.Engine:SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+2025-07-06 10:51:12,842 INFO sqlalchemy.engine.Engine [cached since 9.634s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 9.634s ago] {}
+2025-07-06 10:51:12,844 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64085 - "GET /api/children/ HTTP/1.1" 200 OK
+2025-07-06 10:51:13,652 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:51:13,653 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:51:13,653 INFO sqlalchemy.engine.Engine [cached since 10.76s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 10.76s ago] {}
+2025-07-06 10:51:13,657 INFO sqlalchemy.engine.Engine SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:51:13,657 INFO sqlalchemy.engine.Engine [cached since 3.115s ago] {'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 3.115s ago] {'param_1': 100, 'param_2': 0}
+2025-07-06 10:51:13,660 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:51:13,670 INFO sqlalchemy.engine.Engine [cached since 3.126s ago] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+INFO:sqlalchemy.engine.Engine:[cached since 3.126s ago] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+2025-07-06 10:51:13,674 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:51:13,674 INFO sqlalchemy.engine.Engine [cached since 3.13s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+INFO:sqlalchemy.engine.Engine:[cached since 3.13s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+2025-07-06 10:51:13,676 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64085 - "GET /api/companies/ HTTP/1.1" 200 OK
+2025-07-06 10:51:13,683 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:     127.0.0.1:64085 - "GET /api/companies/drivers/available/ HTTP/1.1" 307 Temporary Redirect
+2025-07-06 10:51:13,683 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:51:13,684 INFO sqlalchemy.engine.Engine [cached since 10.79s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 10.79s ago] {}
+2025-07-06 10:51:13,689 INFO sqlalchemy.engine.Engine SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:51:13,689 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:51:13,689 INFO sqlalchemy.engine.Engine [cached since 3.147s ago] {'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 3.147s ago] {'param_1': 100, 'param_2': 0}
+2025-07-06 10:51:13,690 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:51:13,690 INFO sqlalchemy.engine.Engine [cached since 10.8s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 10.8s ago] {}
+2025-07-06 10:51:13,691 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:51:13,691 INFO sqlalchemy.engine.Engine [cached since 3.146s ago] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+INFO:sqlalchemy.engine.Engine:[cached since 3.146s ago] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+2025-07-06 10:51:13,692 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:51:13,692 INFO sqlalchemy.engine.Engine [cached since 3.147s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+INFO:sqlalchemy.engine.Engine:[cached since 3.147s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+2025-07-06 10:51:13,692 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+2025-07-06 10:51:13,692 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:51:13,693 INFO sqlalchemy.engine.Engine [cached since 10.49s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 10.49s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+2025-07-06 10:51:13,693 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64083 - "GET /api/companies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64085 - "GET /api/companies/drivers/available HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64085 - "GET /api/companies/drivers/available/ HTTP/1.1" 307 Temporary Redirect
+2025-07-06 10:51:13,705 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:51:13,705 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:51:13,706 INFO sqlalchemy.engine.Engine [cached since 10.82s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 10.82s ago] {}
+2025-07-06 10:51:13,706 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:51:13,706 INFO sqlalchemy.engine.Engine [cached since 10.5s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 10.5s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+2025-07-06 10:51:13,707 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64085 - "GET /api/companies/drivers/available HTTP/1.1" 200 OK
+2025-07-06 10:53:56,168 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:53:56,171 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:53:56,171 INFO sqlalchemy.engine.Engine [cached since 173.3s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 173.3s ago] {}
+2025-07-06 10:53:56,175 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users) AS anon_1
+2025-07-06 10:53:56,175 INFO sqlalchemy.engine.Engine [cached since 173s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 173s ago] {}
+2025-07-06 10:53:56,176 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.is_active = true) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.is_active = true) AS anon_1
+2025-07-06 10:53:56,176 INFO sqlalchemy.engine.Engine [cached since 173s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 173s ago] {}
+2025-07-06 10:53:56,177 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:53:56,177 INFO sqlalchemy.engine.Engine [cached since 173s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 173s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+2025-07-06 10:53:56,178 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies) AS anon_1
+2025-07-06 10:53:56,178 INFO sqlalchemy.engine.Engine [cached since 173s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 173s ago] {}
+2025-07-06 10:53:56,179 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+WHERE companies.is_active = true) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+WHERE companies.is_active = true) AS anon_1
+2025-07-06 10:53:56,179 INFO sqlalchemy.engine.Engine [cached since 173s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 173s ago] {}
+2025-07-06 10:53:56,179 INFO sqlalchemy.engine.Engine SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+INFO:sqlalchemy.engine.Engine:SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+2025-07-06 10:53:56,179 INFO sqlalchemy.engine.Engine [cached since 173s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 173s ago] {}
+2025-07-06 10:53:56,180 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64274 - "GET /api/admin/dashboard/metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64283 - "OPTIONS /api/companies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64284 - "OPTIONS /api/companies/ HTTP/1.1" 200 OK
+2025-07-06 10:53:57,150 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:53:57,151 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:53:57,151 INFO sqlalchemy.engine.Engine [cached since 174.3s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 174.3s ago] {}
+2025-07-06 10:53:57,153 INFO sqlalchemy.engine.Engine SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:53:57,153 INFO sqlalchemy.engine.Engine [cached since 166.6s ago] {'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 166.6s ago] {'param_1': 100, 'param_2': 0}
+2025-07-06 10:53:57,157 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:53:57,157 INFO sqlalchemy.engine.Engine [cached since 166.6s ago] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+INFO:sqlalchemy.engine.Engine:[cached since 166.6s ago] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+2025-07-06 10:53:57,159 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:53:57,159 INFO sqlalchemy.engine.Engine [cached since 166.6s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+INFO:sqlalchemy.engine.Engine:[cached since 166.6s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+2025-07-06 10:53:57,161 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64284 - "GET /api/companies/ HTTP/1.1" 200 OK
+2025-07-06 10:53:57,164 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:53:57,165 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:53:57,165 INFO sqlalchemy.engine.Engine [cached since 174.3s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 174.3s ago] {}
+INFO:     127.0.0.1:64284 - "OPTIONS /api/companies/drivers/available/ HTTP/1.1" 200 OK
+2025-07-06 10:53:57,167 INFO sqlalchemy.engine.Engine SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:53:57,167 INFO sqlalchemy.engine.Engine [cached since 166.6s ago] {'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 166.6s ago] {'param_1': 100, 'param_2': 0}
+2025-07-06 10:53:57,169 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:53:57,169 INFO sqlalchemy.engine.Engine [cached since 166.6s ago] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+INFO:sqlalchemy.engine.Engine:[cached since 166.6s ago] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+2025-07-06 10:53:57,170 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:53:57,170 INFO sqlalchemy.engine.Engine [cached since 166.6s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+INFO:sqlalchemy.engine.Engine:[cached since 166.6s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+2025-07-06 10:53:57,171 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64284 - "GET /api/companies/drivers/available/ HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64283 - "GET /api/companies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64283 - "OPTIONS /api/companies/drivers/available HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64284 - "GET /api/companies/drivers/available/ HTTP/1.1" 307 Temporary Redirect
+2025-07-06 10:53:57,178 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:53:57,178 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:53:57,178 INFO sqlalchemy.engine.Engine [cached since 174.3s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 174.3s ago] {}
+2025-07-06 10:53:57,179 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:53:57,179 INFO sqlalchemy.engine.Engine [cached since 174s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 174s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+2025-07-06 10:53:57,181 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64283 - "GET /api/companies/drivers/available HTTP/1.1" 200 OK
+2025-07-06 10:53:57,183 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:53:57,183 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:53:57,183 INFO sqlalchemy.engine.Engine [cached since 174.3s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 174.3s ago] {}
+2025-07-06 10:53:57,184 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:53:57,184 INFO sqlalchemy.engine.Engine [cached since 174s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 174s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+2025-07-06 10:53:57,185 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64284 - "GET /api/companies/drivers/available HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64284 - "OPTIONS /api/children HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64283 - "OPTIONS /api/children HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64283 - "GET /api/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64284 - "GET /api/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64284 - "OPTIONS /api/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64283 - "OPTIONS /api/children/ HTTP/1.1" 200 OK
+2025-07-06 10:53:58,635 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:53:58,635 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:53:58,635 INFO sqlalchemy.engine.Engine [cached since 175.7s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 175.7s ago] {}
+2025-07-06 10:53:58,637 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-07-06 10:53:58,637 INFO sqlalchemy.engine.Engine [cached since 175.5s ago] {'id_1': 'admin-001', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:[cached since 175.5s ago] {'id_1': 'admin-001', 'param_1': 1}
+2025-07-06 10:53:58,638 INFO sqlalchemy.engine.Engine SELECT roles.id AS roles_id, roles.name AS roles_name, roles.description AS roles_description, roles.created_at AS roles_created_at, roles.updated_at AS roles_updated_at 
+FROM roles, user_roles 
+WHERE %(param_1)s = user_roles.user_id AND roles.id = user_roles.role_id
+INFO:sqlalchemy.engine.Engine:SELECT roles.id AS roles_id, roles.name AS roles_name, roles.description AS roles_description, roles.created_at AS roles_created_at, roles.updated_at AS roles_updated_at 
+FROM roles, user_roles 
+WHERE %(param_1)s = user_roles.user_id AND roles.id = user_roles.role_id
+2025-07-06 10:53:58,638 INFO sqlalchemy.engine.Engine [cached since 175.5s ago] {'param_1': 'admin-001'}
+INFO:sqlalchemy.engine.Engine:[cached since 175.5s ago] {'param_1': 'admin-001'}
+2025-07-06 10:53:58,640 INFO sqlalchemy.engine.Engine SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+INFO:sqlalchemy.engine.Engine:SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+2025-07-06 10:53:58,640 INFO sqlalchemy.engine.Engine [cached since 175.4s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 175.4s ago] {}
+2025-07-06 10:53:58,642 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64284 - "GET /api/children/ HTTP/1.1" 200 OK
+2025-07-06 10:53:58,644 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:53:58,644 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:53:58,644 INFO sqlalchemy.engine.Engine [cached since 175.8s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 175.8s ago] {}
+2025-07-06 10:53:58,645 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-07-06 10:53:58,645 INFO sqlalchemy.engine.Engine [cached since 175.5s ago] {'id_1': 'admin-001', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:[cached since 175.5s ago] {'id_1': 'admin-001', 'param_1': 1}
+2025-07-06 10:53:58,646 INFO sqlalchemy.engine.Engine SELECT roles.id AS roles_id, roles.name AS roles_name, roles.description AS roles_description, roles.created_at AS roles_created_at, roles.updated_at AS roles_updated_at 
+FROM roles, user_roles 
+WHERE %(param_1)s = user_roles.user_id AND roles.id = user_roles.role_id
+INFO:sqlalchemy.engine.Engine:SELECT roles.id AS roles_id, roles.name AS roles_name, roles.description AS roles_description, roles.created_at AS roles_created_at, roles.updated_at AS roles_updated_at 
+FROM roles, user_roles 
+WHERE %(param_1)s = user_roles.user_id AND roles.id = user_roles.role_id
+2025-07-06 10:53:58,646 INFO sqlalchemy.engine.Engine [cached since 175.5s ago] {'param_1': 'admin-001'}
+INFO:sqlalchemy.engine.Engine:[cached since 175.5s ago] {'param_1': 'admin-001'}
+2025-07-06 10:53:58,647 INFO sqlalchemy.engine.Engine SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+INFO:sqlalchemy.engine.Engine:SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+2025-07-06 10:53:58,647 INFO sqlalchemy.engine.Engine [cached since 175.4s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 175.4s ago] {}
+2025-07-06 10:53:58,648 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64283 - "GET /api/children/ HTTP/1.1" 200 OK
+2025-07-06 10:54:08,007 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:54:08,007 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:54:08,007 INFO sqlalchemy.engine.Engine [cached since 185.1s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 185.1s ago] {}
+2025-07-06 10:54:08,008 INFO sqlalchemy.engine.Engine SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:54:08,008 INFO sqlalchemy.engine.Engine [cached since 177.5s ago] {'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 177.5s ago] {'param_1': 100, 'param_2': 0}
+2025-07-06 10:54:08,015 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:54:08,015 INFO sqlalchemy.engine.Engine [cached since 177.5s ago] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+INFO:sqlalchemy.engine.Engine:[cached since 177.5s ago] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+2025-07-06 10:54:08,018 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:54:08,018 INFO sqlalchemy.engine.Engine [cached since 177.5s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+INFO:sqlalchemy.engine.Engine:[cached since 177.5s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+2025-07-06 10:54:08,022 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64328 - "GET /api/companies/ HTTP/1.1" 200 OK
+2025-07-06 10:54:08,026 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:54:08,026 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:54:08,026 INFO sqlalchemy.engine.Engine [cached since 185.1s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 185.1s ago] {}
+INFO:     127.0.0.1:64330 - "GET /api/companies/drivers/available/ HTTP/1.1" 307 Temporary Redirect
+2025-07-06 10:54:08,028 INFO sqlalchemy.engine.Engine SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:54:08,028 INFO sqlalchemy.engine.Engine [cached since 177.5s ago] {'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 177.5s ago] {'param_1': 100, 'param_2': 0}
+2025-07-06 10:54:08,028 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:54:08,028 INFO sqlalchemy.engine.Engine [cached since 177.5s ago] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+INFO:sqlalchemy.engine.Engine:[cached since 177.5s ago] {'company_id_1': '5cf5ee1c-42ff-4af0-9051-6bf3f8a1f158'}
+2025-07-06 10:54:08,029 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.company_id = %(company_id_1)s::UUID
+2025-07-06 10:54:08,029 INFO sqlalchemy.engine.Engine [cached since 177.5s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+INFO:sqlalchemy.engine.Engine:[cached since 177.5s ago] {'company_id_1': 'e5e33850-becf-4835-8226-2169fc1e3e69'}
+2025-07-06 10:54:08,029 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64328 - "GET /api/companies/ HTTP/1.1" 200 OK
+2025-07-06 10:54:08,030 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:54:08,030 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:54:08,030 INFO sqlalchemy.engine.Engine [cached since 185.1s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 185.1s ago] {}
+2025-07-06 10:54:08,032 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:54:08,032 INFO sqlalchemy.engine.Engine [cached since 184.8s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 184.8s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+2025-07-06 10:54:08,033 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64328 - "GET /api/companies/drivers/available/ HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64330 - "GET /api/companies/drivers/available HTTP/1.1" 200 OK
+2025-07-06 10:54:08,035 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:54:08,035 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:54:08,035 INFO sqlalchemy.engine.Engine [cached since 185.1s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 185.1s ago] {}
+2025-07-06 10:54:08,036 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:54:08,036 INFO sqlalchemy.engine.Engine [cached since 184.8s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 184.8s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+2025-07-06 10:54:08,037 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64330 - "GET /api/companies/drivers/available HTTP/1.1" 200 OK
+2025-07-06 10:54:08,939 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:54:08,939 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:54:08,939 INFO sqlalchemy.engine.Engine [cached since 186s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 186s ago] {}
+2025-07-06 10:54:08,941 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users) AS anon_1
+2025-07-06 10:54:08,941 INFO sqlalchemy.engine.Engine [cached since 185.7s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 185.7s ago] {}
+2025-07-06 10:54:08,942 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.is_active = true) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.is_active = true) AS anon_1
+2025-07-06 10:54:08,942 INFO sqlalchemy.engine.Engine [cached since 185.7s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 185.7s ago] {}
+2025-07-06 10:54:08,942 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users JOIN user_roles AS user_roles_1 ON users.id = user_roles_1.user_id JOIN roles ON roles.id = user_roles_1.role_id 
+WHERE roles.name = %(name_1)s 
+ LIMIT %(param_1)s OFFSET %(param_2)s
+2025-07-06 10:54:08,942 INFO sqlalchemy.engine.Engine [cached since 185.7s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+INFO:sqlalchemy.engine.Engine:[cached since 185.7s ago] {'name_1': 'driver', 'param_1': 100, 'param_2': 0}
+2025-07-06 10:54:08,943 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies) AS anon_1
+2025-07-06 10:54:08,943 INFO sqlalchemy.engine.Engine [cached since 185.7s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 185.7s ago] {}
+2025-07-06 10:54:08,944 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+WHERE companies.is_active = true) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1 
+FROM (SELECT companies.id AS companies_id, companies.name AS companies_name, companies.description AS companies_description, companies.contact_email AS companies_contact_email, companies.contact_phone AS companies_contact_phone, companies.address AS companies_address, companies.operation_area_type AS companies_operation_area_type, companies.center_lat AS companies_center_lat, companies.center_lng AS companies_center_lng, companies.radius_km AS companies_radius_km, companies.polygon_coordinates AS companies_polygon_coordinates, companies.is_active AS companies_is_active, companies.created_at AS companies_created_at, companies.updated_at AS companies_updated_at 
+FROM companies 
+WHERE companies.is_active = true) AS anon_1
+2025-07-06 10:54:08,944 INFO sqlalchemy.engine.Engine [cached since 185.7s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 185.7s ago] {}
+2025-07-06 10:54:08,944 INFO sqlalchemy.engine.Engine SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+INFO:sqlalchemy.engine.Engine:SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+2025-07-06 10:54:08,944 INFO sqlalchemy.engine.Engine [cached since 185.7s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 185.7s ago] {}
+2025-07-06 10:54:08,945 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64335 - "GET /api/admin/dashboard/metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64406 - "GET /api/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64406 - "GET /api/children HTTP/1.1" 307 Temporary Redirect
+2025-07-06 10:54:30,762 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:54:30,762 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:54:30,762 INFO sqlalchemy.engine.Engine [cached since 207.9s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 207.9s ago] {}
+2025-07-06 10:54:30,762 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-07-06 10:54:30,762 INFO sqlalchemy.engine.Engine [cached since 207.6s ago] {'id_1': 'admin-001', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:[cached since 207.6s ago] {'id_1': 'admin-001', 'param_1': 1}
+2025-07-06 10:54:30,763 INFO sqlalchemy.engine.Engine SELECT roles.id AS roles_id, roles.name AS roles_name, roles.description AS roles_description, roles.created_at AS roles_created_at, roles.updated_at AS roles_updated_at 
+FROM roles, user_roles 
+WHERE %(param_1)s = user_roles.user_id AND roles.id = user_roles.role_id
+INFO:sqlalchemy.engine.Engine:SELECT roles.id AS roles_id, roles.name AS roles_name, roles.description AS roles_description, roles.created_at AS roles_created_at, roles.updated_at AS roles_updated_at 
+FROM roles, user_roles 
+WHERE %(param_1)s = user_roles.user_id AND roles.id = user_roles.role_id
+2025-07-06 10:54:30,763 INFO sqlalchemy.engine.Engine [cached since 207.6s ago] {'param_1': 'admin-001'}
+INFO:sqlalchemy.engine.Engine:[cached since 207.6s ago] {'param_1': 'admin-001'}
+2025-07-06 10:54:30,764 INFO sqlalchemy.engine.Engine SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+INFO:sqlalchemy.engine.Engine:SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+2025-07-06 10:54:30,764 INFO sqlalchemy.engine.Engine [cached since 207.6s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 207.6s ago] {}
+2025-07-06 10:54:30,765 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64406 - "GET /api/children/ HTTP/1.1" 200 OK
+2025-07-06 10:54:30,767 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-07-06 10:54:30,767 INFO sqlalchemy.engine.Engine SELECT 1
+INFO:sqlalchemy.engine.Engine:SELECT 1
+2025-07-06 10:54:30,767 INFO sqlalchemy.engine.Engine [cached since 207.9s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 207.9s ago] {}
+2025-07-06 10:54:30,767 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:SELECT users.id AS users_id, users.email AS users_email, users.hashed_password AS users_hashed_password, users.first_name AS users_first_name, users.last_name AS users_last_name, users.phone AS users_phone, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at, users.last_login AS users_last_login, users.company_id AS users_company_id 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-07-06 10:54:30,767 INFO sqlalchemy.engine.Engine [cached since 207.6s ago] {'id_1': 'admin-001', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:[cached since 207.6s ago] {'id_1': 'admin-001', 'param_1': 1}
+2025-07-06 10:54:30,768 INFO sqlalchemy.engine.Engine SELECT roles.id AS roles_id, roles.name AS roles_name, roles.description AS roles_description, roles.created_at AS roles_created_at, roles.updated_at AS roles_updated_at 
+FROM roles, user_roles 
+WHERE %(param_1)s = user_roles.user_id AND roles.id = user_roles.role_id
+INFO:sqlalchemy.engine.Engine:SELECT roles.id AS roles_id, roles.name AS roles_name, roles.description AS roles_description, roles.created_at AS roles_created_at, roles.updated_at AS roles_updated_at 
+FROM roles, user_roles 
+WHERE %(param_1)s = user_roles.user_id AND roles.id = user_roles.role_id
+2025-07-06 10:54:30,768 INFO sqlalchemy.engine.Engine [cached since 207.6s ago] {'param_1': 'admin-001'}
+INFO:sqlalchemy.engine.Engine:[cached since 207.6s ago] {'param_1': 'admin-001'}
+2025-07-06 10:54:30,769 INFO sqlalchemy.engine.Engine SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+INFO:sqlalchemy.engine.Engine:SELECT children.id AS children_id, children.first_name AS children_first_name, children.last_name AS children_last_name, children.email AS children_email, children.phone AS children_phone, children.parent_id AS children_parent_id, children.date_of_birth AS children_date_of_birth, children.grade AS children_grade, children.school AS children_school, children.emergency_contact AS children_emergency_contact, children.notes AS children_notes, children.is_active AS children_is_active, children.created_at AS children_created_at, children.updated_at AS children_updated_at 
+FROM children 
+WHERE children.is_active = true
+2025-07-06 10:54:30,769 INFO sqlalchemy.engine.Engine [cached since 207.6s ago] {}
+INFO:sqlalchemy.engine.Engine:[cached since 207.6s ago] {}
+2025-07-06 10:54:30,770 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:     127.0.0.1:64408 - "GET /api/children/ HTTP/1.1" 200 OK
